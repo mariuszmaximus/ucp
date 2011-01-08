@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <PathDelim Value="\"/>
+    <Name Value="pckUCDataConnector"/>
+    <CompilerOptions>
+      <Version Value="9"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <IncludeFiles Value="C:\opt\lazarus\components\usercontrol\source\"/>
+        <OtherUnitFiles Value="C:\opt\lazarus\components\usercontrol\source\"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Linking>
+        <Debugging>
+          <GenerateDebugInfo Value="True"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <Verbosity>
+          <ShowAll Value="True"/>
+        </Verbosity>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Major="2" Minor="32"/>
+    <Files Count="2">
+      <Item1>
+        <Filename Value="..\..\source\UCDataConnector.pas"/>
+        <UnitName Value="UCDataConnector"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\source\UserControl.inc"/>
+        <Type Value="Include"/>
+      </Item2>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
