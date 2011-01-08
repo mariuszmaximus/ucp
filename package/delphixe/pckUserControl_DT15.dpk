@@ -1,0 +1,46 @@
+package pckUserControl_DT15;
+
+{$R '..\..\source\UCReg.dcr'}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'User Control Package 2'}
+{$DESIGNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  designide,
+  inet,
+  dbrtl,
+  vcldb,
+  VclSmp,
+  pckUCDataConnector_D15,
+  pckUserControl_RT15,
+  vclimg;
+
+contains
+  UCReg in '..\..\source\UCReg.pas',
+  UCIdle in '..\..\source\UCIdle.pas',
+  UCAbout in '..\..\source\UCAbout.pas' {AboutForm},
+  UCEditorForm_U in '..\..\source\UCEditorForm_U.pas' {UCEditorForm},
+  UCObjSel_U in '..\..\source\UCObjSel_U.pas' {UCObjSel};
+
+end.
