@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
+  <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="pckUserControlDesign"/>
+    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="9"/>
+      <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <IncludeFiles Value="C:\opt\lazarus\components\usercontrol\source\"/>
-        <OtherUnitFiles Value="C:\opt\lazarus\components\usercontrol\source\"/>
+        <IncludeFiles Value="..\..\source"/>
+        <OtherUnitFiles Value="..\..\source;..\connectors\UCZeosConn"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -18,12 +19,13 @@
       </Parsing>
       <Linking>
         <Debugging>
-          <GenerateDebugInfo Value="True"/>
+          <DebugInfoType Value="dsStabs"/>
         </Debugging>
       </Linking>
       <Other>
         <Verbosity>
           <ShowAll Value="True"/>
+          <ShowDebugInfo Value="True"/>
         </Verbosity>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
@@ -52,27 +54,30 @@
         <Type Value="Include"/>
       </Item5>
       <Item6>
-        <Filename Value="..\..\source\UCAbout.pas"/>
-        <UnitName Value="UCAbout"/>
+        <Filename Value="..\connectors\UCZeosConn\UCZEOSConn.pas"/>
+        <UnitName Value="UCZEOSConn"/>
       </Item6>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="IDEIntf"/>
+        <PackageName Value="zcomponent"/>
       </Item1>
       <Item2>
-        <PackageName Value="pckUserControlRuntime"/>
-        <MinVersion Major="2" Minor="32" Valid="True"/>
+        <PackageName Value="IDEIntf"/>
       </Item2>
       <Item3>
-        <PackageName Value="pckUCDataConnector"/>
+        <PackageName Value="pckUserControlRuntime"/>
         <MinVersion Major="2" Minor="32" Valid="True"/>
       </Item3>
       <Item4>
+        <PackageName Value="pckUCDataConnector"/>
+        <MinVersion Major="2" Minor="32" Valid="True"/>
+      </Item4>
+      <Item5>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

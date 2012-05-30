@@ -1,13 +1,17 @@
 unit pUCFrame_Log;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   ComCtrls,
@@ -23,11 +27,14 @@ uses
   Messages,
   StdCtrls,
   SysUtils,
-  UCBase,
-  {$IFDEF FPC}
+  UCBase
+  {$IFDEF FPC},
   EditBtn,
+  LCLType
   {$ENDIF}
-  Windows;
+  {$IFNDEF FPC},
+  Windows
+  {$ENDIF};
 
 type
   TUCFrame_Log = class(TFrame)
@@ -146,10 +153,17 @@ procedure TUCFrame_Log.btexcluiClick(Sender: TObject);
 var
   FTabLog, Temp: String;
 begin
+  {$IFNDEF FPC}
   // modified by fduenas
   if MessageBox(Handle, PChar(FUsercontrol.UserSettings.Log.PromptDelete),
     PChar(FUsercontrol.UserSettings.Log.PromptDelete_WindowCaption), mb_YesNo)
     <> mrYes then
+  {$ELSE}
+  if Application.MessageBox(
+    PChar(FUsercontrol.UserSettings.Log.PromptDelete),
+    PChar(FUsercontrol.UserSettings.Log.PromptDelete_WindowCaption),
+    MB_YESNO) <> mrYes then
+  {$ENDIF}
     Exit;
 
   btfiltro.Enabled := False;
@@ -361,4 +375,4 @@ begin
   Bevel3.Left := 16;
 end;
 
-end.
+end.

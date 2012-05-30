@@ -1,10 +1,26 @@
 unit UCIdle;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
-uses Classes, UCBase, Dialogs, Windows, Forms, ExtCtrls, Messages, SysUtils;
+uses
+  Classes,
+  UCBase,
+  Dialogs,
+  Forms,
+  ExtCtrls,
+  Messages,
+  SysUtils,
+  {$IFNDEF FPC}
+  Windows
+  {$ELSE}
+  LCLtype
+  {$ENDIF};
 
 type
 
@@ -112,7 +128,7 @@ begin
     Value.FreeNotification(Self);
 end;
 
-procedure TUCIdle.UCAppMessage(var Msg: TMsg; var Handled: Boolean);
+procedure TUCIdle.UCAppMessage(var Msg: TMSG; var Handled: Boolean);
 begin
   if (Msg.message = wm_mousemove) or (Msg.message = wm_keydown) then
     FThIdle.CurrentMilisec := 0;
@@ -154,4 +170,4 @@ begin
   end;
 end;
 
-end.
+end.

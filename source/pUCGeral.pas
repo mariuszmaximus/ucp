@@ -22,8 +22,10 @@ uses
   StdCtrls,
   SysUtils,
   UcBase,
-  Variants,
-  Windows;
+  Variants
+  {$IFNDEF FPC},
+  Windows
+  {$ENDIF};
 
 type
   TFormUserPerf = class(TForm)

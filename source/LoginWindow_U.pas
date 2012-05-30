@@ -1,13 +1,17 @@
 unit LoginWindow_U;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -20,7 +24,10 @@ uses
   StdCtrls,
   SysUtils,
   UCBase,
-  Windows, ComCtrls;
+  ComCtrls
+  {$IFNDEF FPC},
+  Windows
+  {$ENDIF};
 
 type
   TfrmLoginWindow = class(TForm)
@@ -127,11 +134,13 @@ end;
 
 procedure TfrmLoginWindow.FormKeyPress(Sender: TObject; var Key: char);
 begin
+  {$IFNDEF FPC}
   if Key = #13 then
   Begin
     Key := #0;
     Perform(WM_NEXTDLGCTL, 0, 0);
   End;
+  {$ENDIF}
 end;
 
-end.
+end.

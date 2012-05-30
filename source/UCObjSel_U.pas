@@ -23,8 +23,10 @@ uses
   StdCtrls,
   SysUtils,
   UCBase,
-  UcConsts_Language,
-  Windows;
+  UcConsts_Language
+  {$IFNDEF FPC},
+  Windows
+  {$ENDIF};
 
 type
   TQControl = class(TControl)

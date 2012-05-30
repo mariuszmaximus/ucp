@@ -40,11 +40,13 @@ type
     function GetVerbCount: Integer; override;
   end;
 
+  {$IFNDEF FPC}
   TUCAboutVarProperty = class(TStringProperty)
     function GetAttributes: TPropertyAttributes; override;
     procedure Edit; override;
     function GetValue: String; override;
   end;
+  {$ENDIF}
 
 procedure Register;
 {$IFNDEF FPC}
@@ -66,11 +68,17 @@ uses
   SysUtils,
   Menus,
   StdCtrls,
+  {$IFNDEF FPC}
   UCAbout,
+  {$ENDIF}
   UCIdle,
   UCObjSel_U,
   UCEditorForm_U,
+  {$IFNDEF FPC}
   UcMail,
+  {$ELSE}
+  UCZEOSConn,
+  {$ENDIF}
   UCSettings;
 
 procedure Register;
@@ -81,9 +89,15 @@ begin
     TUCControls,
     TUCApplicationMessage,
     TUCIdle,
+    {$IFNDEF FPC}
     TMailUserControl
+    {$ELSE}
+    TUCZEOSConn
+    {$ENDIF}
   ]);
+  {$IFNDEF FPC}
   RegisterPropertyEditor(TypeInfo(TUCAboutVar), TUserControl, 'About', TUCAboutVarProperty);
+  {$ENDIF}
   RegisterPropertyEditor(TypeInfo(TUCComponentsVar), TUserControl, 'Components', TUCComponentsVarProperty);
   RegisterComponentEditor(TUCControls, TUCControlsEditor);
   RegisterComponentEditor(TUserControl, TUserControlEditor);
@@ -105,6 +119,7 @@ begin
   Result := 'Components...';
 end;
 
+{$IFNDEF FPC}
 { TUCAboutVarProperty }
 
 procedure TUCAboutVarProperty.Edit;
@@ -125,6 +140,7 @@ function TUCAboutVarProperty.GetValue: String;
 begin
   Result := 'Versão ' + UCVersion;
 end;
+{$ENDIF}
 
 {$IFNDEF FPC}
 procedure ShowUserControlsEditor(Componente: TUserControl);
@@ -381,4 +397,4 @@ begin
   Result := 1;
 end;
 
-end.
+end.

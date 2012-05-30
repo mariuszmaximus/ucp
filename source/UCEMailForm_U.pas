@@ -1,5 +1,9 @@
 unit UCEMailForm_U;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}

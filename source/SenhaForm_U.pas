@@ -1,5 +1,9 @@
 unit SenhaForm_U;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
@@ -15,8 +19,10 @@ uses
   StdCtrls,
   SysUtils,
   Variants,
-  Windows,
-  UCBase;
+  UCBase
+  {$IFNDEF FPC},
+  Windows
+  {$ENDIF};
 
 type
   TSenhaForm = class(TForm)
