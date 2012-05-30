@@ -1,5 +1,9 @@
 unit UCEditorForm_U;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
@@ -10,6 +14,10 @@ uses
   ActnMan,
   ActnMenus,
   jpeg,
+  ShellAPI,
+  Windows,
+  {$ELSE}
+  LCLType,
   {$ENDIF}
   ActnList,
   Buttons,
@@ -175,11 +183,9 @@ implementation
 
 uses
   LoginWindow_U,
-  ShellAPI,
   SysUtils,
   UcConsts_Language,
-  UCMessages,
-  Windows;
+  UCMessages;
 
 {$R *.dfm}
 
@@ -496,4 +502,4 @@ begin
   End;
 end;
 
-end.
+end.

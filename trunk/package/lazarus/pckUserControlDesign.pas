@@ -1,0 +1,21 @@
+{ This file was automatically created by Lazarus. Do not edit!
+  This source is only used to compile and install the package.
+ }
+
+unit pckUserControlDesign;
+
+interface
+
+uses
+  UCReg, UCIdle, UCEditorForm_U, UCObjSel_U, UCZEOSConn, LazarusPackageIntf;
+
+implementation
+
+procedure Register;
+begin
+  RegisterUnit('UCReg', @UCReg.Register);
+end;
+
+initialization
+  RegisterPackage('pckUserControlDesign', @Register);
+end.

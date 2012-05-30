@@ -1,13 +1,17 @@
 unit pUcFrame_UserLogged;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -23,8 +27,10 @@ uses
   Messages,
   StdCtrls,
   SysUtils,
-  UCBase,
-  Windows;
+  UCBase
+  {$IFNDEF FPC},
+  Windows
+  {$ENDIF};
 
 type
   TUCFrame_UsersLogged = class(TFrame)

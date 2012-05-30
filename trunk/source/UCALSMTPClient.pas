@@ -62,6 +62,11 @@
 
 unit UCALSMTPClient;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
+
 {$I 'UserControl.inc'}
 
 interface

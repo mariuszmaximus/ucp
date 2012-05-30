@@ -1,13 +1,17 @@
 unit TrocaSenha_U;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -18,7 +22,9 @@ uses
   Messages,
   StdCtrls,
   SysUtils,
+  {$IFNDEF FPC}
   Windows,
+  {$ENDIF}
   // UCConsts,
   UCBase; { Por Vicente Barros Leonel }
 

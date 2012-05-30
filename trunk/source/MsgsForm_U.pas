@@ -1,13 +1,17 @@
 unit MsgsForm_U;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Classes,
   ComCtrls,
   Controls,
@@ -21,7 +25,11 @@ uses
   StdCtrls,
   SysUtils,
   ToolWin,
-  Windows;
+  {$IFNDEF FPC}
+  Windows
+  {$ELSE}
+  LCLType
+  {$ENDIF};
 
 type
   TPointMsg = ^PPointMsg;
@@ -208,14 +216,22 @@ begin
 {$IFDEF DELPHI5}
   if ListView1.Selected = nil then
   begin
+    {$IFNDEF FPC}
     // Modfied by fduenas
     MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
       .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
       PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
       MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION + MB_OK);
+    {$ELSE}
+    Application.MessageBox(
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION + MB_OK);
+    {$ENDIF}
     exit;
   end;
 {$ELSE}
+  end;
   if ListView1.ItemIndex = -1 then
   begin
     // Modfied by fduenas
@@ -258,14 +274,22 @@ begin
 {$IFDEF DELPHI5}
   if ListView1.Selected = nil then
   begin
+    {$IFNDEF FPC}
     // Modfied by fduenas
     MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
       .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
       PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
       MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
+    {$ELSE}
+    Application.MessageBox(
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION + MB_OK);
+    {$ENDIF}
     exit;
   end;
 {$ELSE}
+  end;
   if ListView1.ItemIndex = -1 then
   begin
     // Modfied by fduenas
@@ -303,11 +327,18 @@ begin
 {$IFDEF DELPHI5}
   if ListView1.Selected = nil then
   begin
+    {$IFNDEF FPC}
     // Modfied by fduenas
     MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
       .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
       PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION + MB_OK);
+      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
+    {$ELSE}
+    Application.MessageBox(
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION + MB_OK);
+    {$ENDIF}
     exit;
   end;
 {$ELSE}
@@ -364,4 +395,4 @@ begin
   MontaTela;
 end;
 
-end.
+end.

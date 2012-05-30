@@ -1,13 +1,17 @@
 unit pUCFrame_User;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -25,7 +29,11 @@ uses
   SysUtils,
   UcBase,
   UserPermis_U,
-  Windows;
+  {$IFNDEF FPC}
+  Windows
+  {$ELSE}
+  LCLType
+  {$ENDIF};
 
 type
   TUCFrame_User = class(TFrame)
@@ -120,11 +128,19 @@ begin
   if FDataSetCadastroUsuario.IsEmpty then
     Exit;
   TempID := FDataSetCadastroUsuario.FieldByName('IDUser').AsInteger;
+  {$IFNDEF FPC}
   if MessageBox(Handle,
     PChar(Format(FUsercontrol.UserSettings.UsersForm.PromptDelete,
     [FDataSetCadastroUsuario.FieldByName('Login').AsString])),
     PChar(FUsercontrol.UserSettings.UsersForm.PromptDelete_WindowCaption),
     MB_ICONQUESTION or MB_YESNO or MB_DEFBUTTON2) = idYes then
+  {$ELSE}
+  if Application.MessageBox(
+    PChar(Format(FUsercontrol.UserSettings.UsersForm.PromptDelete,
+    [FDataSetCadastroUsuario.FieldByName('Login').AsString])),
+    PChar(FUsercontrol.UserSettings.UsersForm.PromptDelete_WindowCaption),
+    MB_ICONQUESTION + MB_YESNO) <> mrYes then
+  {$ENDIF}
   begin
     CanDelete := True;
     if Assigned(FUsercontrol.onDeleteUser) then
@@ -354,4 +370,4 @@ begin
   end;
 end;
 
-end.
+end.

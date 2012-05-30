@@ -41,8 +41,10 @@ uses
   {$ENDIF}
   UCMessages,
   UCSettings,
-  Variants,
-  Windows;
+  Variants
+  {$IFDEF MSWINDOWS},
+  Windows
+  {$ENDIF};
 
 const
   llBaixo = 0;
@@ -75,7 +77,9 @@ type
     class function NovoGUIDString: String;
   end;
 
+  {$IFNDEF FPC}
   TUCAboutVar = String;
+  {$ENDIF}
 
   // classe para armazenar usuario logado = currentuser
   TUCCurrentUser = class(TComponent)
@@ -384,7 +388,9 @@ type
     FOnDeleteUser: TOnDeleteUser;
     FOnLogoff: TOnLogoff;
     FCustomInicialMsg: TCustomInitialMessage;
+    {$IFNDEF FPC}
     FAbout: TUCAboutVar;
+    {$ENDIF}
     FExtraRights: TUCExtraRights;
     FThUCRun: TUCExecuteThread;
     FAutoStart: Boolean;
@@ -428,14 +434,14 @@ type
     procedure ActionEsqueceuSenha(Sender: TObject);
   protected
     FRetry: Integer;
-    // Formul·rios
+    // Formul\E1rios
     FFormTrocarSenha: TCustomForm;
     FFormLogin: TCustomForm;
     FFormGeral: TCustomForm;
     // -----
 
     procedure Loaded; override;
-    // Criar Formul·rios
+    // Criar Formul\E1rios
     procedure CriaFormTrocarSenha; dynamic;
     // -----
 
@@ -497,7 +503,9 @@ type
     destructor Destroy; override;
     function GetAllUsers(Names: Boolean): TStringList;
   published
+    {$IFNDEF FPC}
     property About: TUCAboutVar read FAbout write FAbout;
+    {$ENDIF}
     property Criptografia: TUCCriptografia read FCriptografia
       write FCriptografia default cPadrao;
     property AutoStart: Boolean read FAutoStart write FAutoStart default False;
@@ -873,7 +881,7 @@ begin
   begin
     If UpperCase(Owner.ClassParent.ClassName) = UpperCase('TDataModule') then
       raise Exception.Create
-        ('O Componente "TUserControl" n„o pode ser definido em um "TDataModulo"');
+        ('O Componente "TUserControl" n√£o pode ser definido em um "TDataModulo"');
 
     if not Assigned(DataConnector) then
       raise Exception.Create(RetornaLingua(fLanguage, 'MsgExceptConnector'));
@@ -894,7 +902,7 @@ begin
       if Owner.Components[Contador] is TUCSettings then
       begin
         Language := TUCSettings(Owner.Components[Contador]).Language;
-        // torna a linguage do UCSETTINGS como padr„o
+        // torna a linguage do UCSETTINGS como padr√£o
         FUserSettings.BancoDados := TUCSettings(Owner.Components[Contador])
           .BancoDados;
         ApplySettings(TUCSettings(Owner.Components[Contador]));
@@ -1119,11 +1127,13 @@ var
   Count: DWORD;
   Buffer: String;
 begin
+  {$IFDEF MSWINDOWS}
   Count := MAX_COMPUTERNAME_LENGTH + 1;
   SetLength(Buffer, Count);
   if GetComputerName(PChar(Buffer), Count) then
     SetLength(Buffer, StrLen(PChar(Buffer)))
   else
+  {$ENDIF}
     Buffer := '';
   Result := Buffer;
 end;
@@ -1133,11 +1143,13 @@ var
   Count: DWORD;
   Buffer: String;
 begin
+  {$IFDEF MSWINDOWS}
   Count := 254;
   SetLength(Buffer, Count);
   if GetUserName(PChar(Buffer), Count) then
     SetLength(Buffer, StrLen(PChar(Buffer)))
   else
+  {$ENDIF}
     Buffer := '';
   Result := Buffer;
 end;
@@ -1168,11 +1180,11 @@ procedure TUserControl.ActionTSBtGrava(Sender: TObject);
 var
   AuxPass: String;
 begin
-  { Pelo que eu analizei, a gravaÁ„o da senha no Banco de Dados e feita criptografada
-    Qdo a criptografia e padr„o, a funcao RegistraCurrentUser descriptografa a senha atual
+  { Pelo que eu analizei, a grava√ß√£o da senha no Banco de Dados e feita criptografada
+    Qdo a criptografia e padr√£o, a funcao RegistraCurrentUser descriptografa a senha atual
     agora quando criptografia e MD5SUM, devemos criptografar a senha atual vinda do formulario de
     troca de senha para podemos comparar com a senha atual da classe TUCCurrentUser
-    ModificaÁ„o Feita por Vicente Barros Leonel
+    Modifica√ß√£o Feita por Vicente Barros Leonel
   }
   case Self.Criptografia of
     cPadrao:
@@ -1378,7 +1390,7 @@ end;
 
 procedure TUserControl.Log(Msg: String; Level: Integer);
 begin
-  // Adicionado ao log a identificaÁ„o da AplicaÁ„o
+  // Adicionado ao log a identifica√ß√£o da Aplica√ß√£o
   if not LogControl.Active then
     Exit;
 
@@ -1470,7 +1482,7 @@ begin
     TTrocaSenha(FFormTrocarSenha).ForcarTroca := True;
     FFormTrocarSenha.ShowModal;
     FreeAndNil(FFormTrocarSenha);
-    { Incrementa a Data de ExpiraÁ„o em x dias apÛs a troca de senha }
+    { Incrementa a Data de Expira√ß√£o em x dias ap√≥s a troca de senha }
     CurrentUser.DateExpiration := CurrentUser.DateExpiration +
       CurrentUser.UserDaysExpired;
   end;
@@ -1865,7 +1877,7 @@ var
   Sql: String;
   DataSet: TDataSet;
 begin
-  { Procura o campo FieldUserDaysSun na tabela de usuarios se o mesmo n„o existir cria }
+  { Procura o campo FieldUserDaysSun na tabela de usuarios se o mesmo n√£o existir cria }
   try
     Sql := Format('select * from %s', [FTableUsers.TableName]);
     DataSet := DataConnector.UCGetSQLDataset(Sql);
@@ -2364,7 +2376,7 @@ begin
         OnApplyRightsActionIt(Self,
           TAction(TActionList(ObjetoAction).Actions[Contador]));
     end;
-  end; // Fim das permissıes de Actions
+  end; // Fim das permiss√µes de Actions
 
   {$IFNDEF FPC}
   { .$IFDEF UCACTMANAGER }
@@ -3046,7 +3058,7 @@ begin
     Type_VarChar   := SourceSettings.Type_VarChar;
     Type_Char      := SourceSettings.Type_Char;
     Type_Int       := SourceSettings.Type_Int;
-    end;  atenÁ„o mudar aqui }
+    end;  aten√ß√£o mudar aqui }
 
   UserSettings.WindowsPosition := SourceSettings.WindowsPosition;
 end;
@@ -4263,4 +4275,4 @@ end;
 
 {$IFDEF DELPHI9_UP} {$ENDREGION} {$ENDIF}
 
-end.
+end.

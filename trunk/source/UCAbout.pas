@@ -1,5 +1,9 @@
 unit UCAbout;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 {$I 'UserControl.inc'}
@@ -13,6 +17,8 @@ uses
   Forms,
   {$IFNDEF FPC}
   jpeg,
+  ShellAPI,
+  Windows
   {$ENDIF}
   StdCtrls;
 
@@ -63,9 +69,7 @@ type
 implementation
 
 uses
-  ShellAPI,
-  UCBase,
-  Windows;
+  UCBase;
 
 {$R *.dfm}
 
@@ -109,8 +113,10 @@ end;
 procedure TAboutForm.WMNChitTest(var M: TWMNchitTest);
 begin
   inherited;
+  {$IFNDEF FPC}
   if M.result = htclient then
     M.result := htCaption;
+  {$ENDIF}
 end;
 
-end.
+end.

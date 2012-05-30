@@ -7,14 +7,15 @@ interface
 uses
   UCBase,
   {$IFNDEF FPC}
+  Windows,
   {.$IFDEF UCACTMANAGER}
   ActnMan,
   ActnMenus,
   {.$ENDIF}
   {$ENDIF}
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   ComCtrls,
@@ -25,7 +26,8 @@ uses
   Graphics,
   ImgList,
   Menus,
-  StdCtrls;
+  StdCtrls,
+  ActnList;
 
 type
   PTreeMenu = ^TTreeMenu;
@@ -124,10 +126,8 @@ var
 implementation
 
 uses
-  ActnList,
   Messages,
-  SysUtils,
-  Windows;
+  SysUtils;
 
 {$R *.dfm}
 
@@ -314,7 +314,9 @@ begin
           FTempMPointer);
       end;
     TreeMenu.FullExpand;
+    {$IFNDEF FPC}
     TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
+    {$ENDIF}
   end;
 
   {$IFNDEF FPC}
@@ -418,7 +420,9 @@ begin
         [rfReplaceAll]), FTempAPointer);
     end;
     TreeAction.FullExpand;
-    TreeAction.Perform(WM_VSCROLL, SB_TOP, 0);
+    {$IFNDEF FPC}
+    TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
+    {$ENDIF}
   end;
 
   // ExtraRights
@@ -476,7 +480,9 @@ begin
       FTempCPointer := nil;
     end;
     TreeControls.FullExpand;
-    TreeControls.Perform(WM_VSCROLL, SB_TOP, 0);
+    {$IFNDEF FPC}
+    TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
+    {$ENDIF}
   end;
 
   PageMenu.TabVisible := Assigned(FMenu);
@@ -841,4 +847,4 @@ begin
     Dispose(FListaControl[Contador]);
 end;
 
-end.
+end.

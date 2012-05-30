@@ -47,7 +47,11 @@ interface
 // -----------------------------------------------------------------------------------------------
 
 uses
-  Windows, SysUtils, Types;
+  {$IFNDEF FPC}
+  Windows,
+  {$ENDIF}
+  SysUtils,
+  Types;
 
 type
   MD5Count = array [0 .. 1] of DWORD;

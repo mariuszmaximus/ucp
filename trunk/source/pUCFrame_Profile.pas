@@ -5,9 +5,9 @@ interface
 {$I 'UserControl.inc'}
 
 uses
-{$IFDEF DELPHI5_UP}
+  {$IFDEF DELPHI5_UP}
   Variants,
-{$ENDIF}
+  {$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -23,8 +23,12 @@ uses
   StdCtrls,
   SysUtils,
   UcBase,
-  UserPermis_U,
-  Windows;
+  UserPermis_U
+  {$IFNDEF FPC},
+  Windows
+  {$ELSE},
+  LCLType
+  {$ENDIF};
 
 type
   TFrame_Profile = class(TFrame)
@@ -204,11 +208,19 @@ begin
     TempDS.Close;
     FreeAndNil(TempDS);
     // changed by fduenas: PromptDelete_WindowCaption
+    {$IFNDEF FPC}
     if MessageBox(handle,
       PChar(Format(fUserControl.UserSettings.UsersProfile.PromptDelete,
       [FDataSetPerfilUsuario.FieldByName('Nome').AsString])),
       PChar(fUserControl.UserSettings.UsersProfile.PromptDelete_WindowCaption),
       MB_ICONQUESTION or MB_YESNO or MB_DEFBUTTON2) <> idYes then
+    {$ELSE}
+    if Application.MessageBox(
+      PChar(Format(fUserControl.UserSettings.UsersProfile.PromptDelete,
+      [FDataSetPerfilUsuario.FieldByName('Nome').AsString])),
+      PChar(fUserControl.UserSettings.UsersProfile.PromptDelete_WindowCaption),
+      MB_ICONQUESTION + MB_YESNO) <> mrYes then
+    {$ENDIF}
       Exit;
   end
   else
@@ -249,4 +261,4 @@ begin
   inherited;
 end;
 
-end.
+end.
