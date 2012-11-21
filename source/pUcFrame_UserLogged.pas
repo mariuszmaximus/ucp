@@ -1,17 +1,14 @@
 unit pUcFrame_UserLogged;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-  {$IFDEF DELPHI5_UP}
+{$IFDEF DELPHI5}
+{$ELSE}
   Variants,
-  {$ENDIF}
+{$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -27,24 +24,22 @@ uses
   Messages,
   StdCtrls,
   SysUtils,
-  UCBase
-  {$IFNDEF FPC},
-  Windows
-  {$ENDIF};
+  UCBase,
+  Windows;
 
 type
   TUCFrame_UsersLogged = class(TFrame)
-    dsDados: TDataSource;
-    DBGrid: TDBGrid;
-    Panel3: TPanel;
-    BtExit: TBitBtn;
-    BitMsg: TBitBtn;
+    dsDados:    TDataSource;
+    DBGrid:     TDBGrid;
+    Panel3:     TPanel;
+    BtExit:     TBitBtn;
+    BitMsg:     TBitBtn;
     BitRefresh: TBitBtn;
     procedure BitRefreshClick(Sender: TObject);
     procedure BitMsgClick(Sender: TObject);
   private
     DSUserLogados: TDataset;
-    UCMes: TUCApplicationMessage;
+    UCMes:         TUCApplicationMessage;
   public
     FUserControl: TUserControl;
     procedure SetWindow;
@@ -61,38 +56,38 @@ uses
 procedure TUCFrame_UsersLogged.SetWindow;
 var
   SQLStmt: String;
-  I: Integer;
-  Form: TForm;
+  I:       Integer;
+  Form:    TForm;
 begin
   UCMes := nil;
-  Form := Application.MainForm;
+  Form  := Application.MainForm;
   for I := 0 to Form.ComponentCount - 1 do
     if (Form.Components[I] is TUCApplicationMessage) then
       UCMes := TUCApplicationMessage(Form.Components[I]);
-  BitMsg.Visible := UCMes <> nil;
+  BitMsg.Visible := UCMES <> nil;
+
 
   with FUserControl do
   begin
-    SQLStmt := 'SELECT U.' + TableUsers.FieldUserName + ' AS UserName,' +
-      '       U.' + TableUsers.FieldUserId + ' AS id, ' + '       U.' +
-      TableUsers.FieldLogin + ' AS Login,' + '       L.' +
-      TableUsersLogged.FieldMachineName + ' AS MachineName,' + '       L.' +
-      TableUsersLogged.FieldData + ' AS DATA ' + 'FROM ' +
-      TableUsersLogged.TableName + ' L ' + '    INNER JOIN ' +
-      TableUsers.TableName + ' U ON U.' + TableUsers.FieldUserId + ' = L.' +
-      TableUsersLogged.FieldUserId + '    LEFT  JOIN ' + TableUsers.TableName +
-      ' P ON P.' + TableUsers.FieldUserId + ' = U.' + TableUsers.FieldProfile +
-      ' ' + 'WHERE L.' + TableUsersLogged.FieldApplicationID + ' = ' +
-      QuotedStr(ApplicationID);
+    SQLStmt :=
+      'SELECT U.' + TableUsers.FieldUserName + ' AS UserName,' +
+      '       U.' + TableUsers.FieldUserId + ' AS id, ' +
+      '       U.' + TableUsers.FieldLogin + ' AS Login,' +
+      '       L.' + TableUsersLogged.FieldMachineName + ' AS MachineName,' +
+      '       L.' + TableUsersLogged.FieldData + ' AS DATA ' +
+      'FROM ' + TableUsersLogged.TableName + ' L ' +
+      '    INNER JOIN ' + TableUsers.TableName + ' U ON U.' + TableUsers.FieldUserID + ' = L.' + TableUsersLogged.FieldUserID +
+      '    LEFT  JOIN ' + TableUsers.TableName + ' P ON P.' + TableUsers.FieldUserID + ' = U.' + TableUsers.FieldProfile + ' ' +
+      'WHERE L.' + TableUsersLogged.FieldApplicationID + ' = ' + QuotedStr(ApplicationID);
 
     DSUserLogados := DataConnector.UCGetSQLDataset(SQLStmt);
 
     with UserSettings.UsersLogged do
     begin
-      Caption := LabelCaption;
-      BitMsg.Caption := BtnMessage;
+      Caption            := LabelCaption;
+      BitMsg.Caption     := BtnMessage;
       BitRefresh.Caption := BtnRefresh;
-      BtExit.Caption := BtnClose;
+      BtExit.Caption     := BtnClose;
 
       DBGrid.Columns[0].Title.Caption := ColName;
       DBGrid.Columns[1].Title.Caption := ColLogin;
@@ -108,8 +103,8 @@ procedure TUCFrame_UsersLogged.BitRefreshClick(Sender: TObject);
 begin
   try
     Screen.Cursor := crHourGlass;
-    dsDados.Dataset.Close;
-    dsDados.Dataset.Open;
+    dsDados.DataSet.Close;
+    dsDados.DataSet.Open;
   finally
     Screen.Cursor := crDefault;
   end;
@@ -126,11 +121,10 @@ procedure TUCFrame_UsersLogged.BitMsgClick(Sender: TObject);
 var
   Msg: String;
 begin
-  if Assigned(UCMes) then
-    if InputQuery(FUserControl.UserSettings.UsersLogged.InputText,
-      FUserControl.UserSettings.UsersLogged.InputCaption, Msg) = True then
-      UCMes.SendAppMessage(dsDados.Dataset.FieldValues['id'],
-        FUserControl.UserSettings.UsersLogged.MsgSystem, Msg);
+  if Assigned(UcMes) then
+    if InputQuery(fUserControl.UserSettings.UsersLogged.InputText, fUserControl.UserSettings.UsersLogged.InputCaption, Msg) = True then
+      UcMes.SendAppMessage(dsDados.DataSet.FieldValues['id'], fUserControl.UserSettings.UsersLogged.MsgSystem, Msg);
 end;
 
 end.
+

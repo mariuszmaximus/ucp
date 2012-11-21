@@ -21,7 +21,8 @@ object UCFrame_User: TUCFrame_User
       Height = 25
       Cursor = crHandPoint
       Caption = '&Adicionar'
-      DoubleBuffered = True
+      TabOrder = 0
+      OnClick = btAdicClick
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
@@ -74,9 +75,6 @@ object UCFrame_User: TUCFrame_User
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 0
-      OnClick = btAdicClick
     end
     object BtAlt: TBitBtn
       Left = 126
@@ -85,7 +83,8 @@ object UCFrame_User: TUCFrame_User
       Height = 25
       Cursor = crHandPoint
       Caption = '&Alterar'
-      DoubleBuffered = True
+      TabOrder = 1
+      OnClick = BtAltClick
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
@@ -138,9 +137,6 @@ object UCFrame_User: TUCFrame_User
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 1
-      OnClick = BtAltClick
     end
     object BtExclui: TBitBtn
       Left = 213
@@ -149,7 +145,8 @@ object UCFrame_User: TUCFrame_User
       Height = 25
       Cursor = crHandPoint
       Caption = '&Excluir'
-      DoubleBuffered = True
+      TabOrder = 2
+      OnClick = BtExcluiClick
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
@@ -202,9 +199,6 @@ object UCFrame_User: TUCFrame_User
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 2
-      OnClick = BtExcluiClick
     end
     object BtAcess: TBitBtn
       Left = 300
@@ -213,7 +207,8 @@ object UCFrame_User: TUCFrame_User
       Height = 25
       Cursor = crHandPoint
       Caption = '&Acessos'
-      DoubleBuffered = True
+      TabOrder = 3
+      OnClick = BtAcessClick
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
@@ -266,9 +261,6 @@ object UCFrame_User: TUCFrame_User
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 3
-      OnClick = BtAcessClick
     end
     object BtnClose: TBitBtn
       Left = 474
@@ -277,7 +269,7 @@ object UCFrame_User: TUCFrame_User
       Height = 25
       Cursor = crHandPoint
       Caption = '&Fechar'
-      DoubleBuffered = True
+      TabOrder = 4
       Glyph.Data = {
         B6020000424DB602000000000000B60100002800000010000000100000000100
         08000000000000010000120B0000120B0000600000006000000000000000FFFF
@@ -301,8 +293,6 @@ object UCFrame_User: TUCFrame_User
         254307474D4B4D3F4502020245302A2B292D07474D4B4D3F4502020245352E2C
         2E3207474D4B4D3F450202024545332F343107464A494A3F450202020202453C
         3744074545454545450202020202020245450702020202020202}
-      ParentDoubleBuffered = False
-      TabOrder = 4
     end
     object BtPass: TBitBtn
       Left = 387
@@ -311,7 +301,8 @@ object UCFrame_User: TUCFrame_User
       Height = 25
       Cursor = crHandPoint
       Caption = '&Senha'
-      DoubleBuffered = True
+      TabOrder = 5
+      OnClick = BtPassClick
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000C8D0D4C8D0D4
@@ -364,9 +355,6 @@ object UCFrame_User: TUCFrame_User
         D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8CDCFC8C9CABDBEBEB4
         B6B7BBC1C4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 5
-      OnClick = BtPassClick
     end
   end
   object DbGridUser: TDBGrid

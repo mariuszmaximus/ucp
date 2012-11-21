@@ -1,9 +1,5 @@
 unit UCDataInfo;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 uses
@@ -12,16 +8,16 @@ uses
 type
   TUCTableUsers = class(TPersistent)
   private
-    FEmail: String;
-    FTypeRec: String;
-    FUserID: String;
+    FEmail:      String;
+    FTypeRec:    String;
+    FUserID:     String;
     FPrivileged: String;
-    FUserName: String;
-    FTable: String;
-    FProfile: String;
-    FLogin: String;
-    FPassword: String;
-    FKey: String;
+    FUserName:   String;
+    FTable:      String;
+    FProfile:    String;
+    FLogin:      String;
+    FPassword:   String;
+    FKey:        String;
     fDateExpired: String;
     fUserExpired: String;
     fFieldUserDaysSun: String;
@@ -41,25 +37,21 @@ type
     property FieldTypeRec: String read FTypeRec write FTypeRec;
     property FieldProfile: String read FProfile write FProfile;
     property FieldKey: String read FKey write FKey;
-    property FieldDateExpired: String read fDateExpired write fDateExpired;
-    { By Vicente Barros Leonel }
-    property FieldUserExpired: String read fUserExpired write fUserExpired;
-    { By vicente barros leonel }
-    property FieldUserDaysSun: String read fFieldUserDaysSun
-      write fFieldUserDaysSun; { By vicente barros leonel }
-    property FieldUserInative: String read fFieldUserInative
-      write fFieldUserInative; { By vicente barros leonel }
+    property FieldDateExpired: String read fDateExpired write fDateExpired; { By Vicente Barros Leonel }
+    property FieldUserExpired: String read fUserExpired write fUserExpired; { By vicente barros leonel }
+    property FieldUserDaysSun: String read fFieldUserDaysSun write fFieldUserDaysSun; { By vicente barros leonel }
+    property FieldUserInative: String read fFieldUserInative write fFieldUserInative; { By vicente barros leonel }
     property TableName: String read FTable write FTable;
   end;
 
   TUCTableRights = class(TPersistent)
   private
-    FUserID: String;
-    FFormName: String;
-    FModule: String;
-    FTable: String;
+    FUserID:        String;
+    FFormName:      String;
+    FModule:        String;
+    FTable:         String;
     FComponentName: String;
-    FKey: String;
+    FKey:           String;
   protected
   public
     constructor Create(AOwner: TComponent);
@@ -68,8 +60,7 @@ type
   published
     property FieldUserID: String read FUserID write FUserID;
     property FieldModule: String read FModule write FModule;
-    property FieldComponentName: String read FComponentName
-      write FComponentName;
+    property FieldComponentName: String read FComponentName write FComponentName;
     property FieldFormName: String read FFormName write FFormName;
     property FieldKey: String read FKey write FKey;
     property TableName: String read FTable write FTable;
@@ -77,12 +68,12 @@ type
 
   TUCTableUsersLogged = class(TPersistent)
   private
-    FTableName: String;
-    FData: String;
+    FTableName:     String;
+    FData:          String;
     FApplicationID: String;
-    FUserID: String;
-    FLogonID: String;
-    FMachineName: String;
+    FUserID:        String;
+    FLogonID:       String;
+    FMachineName:   String;
     { private declarations }
   protected
     { protected declarations }
@@ -95,14 +86,13 @@ type
     { published declarations }
     property FieldLogonID: String read FLogonID write FLogonID;
     property FieldUserID: String read FUserID write FUserID;
-    property FieldApplicationID: String read FApplicationID
-      write FApplicationID;
+    property FieldApplicationID: String read FApplicationID write FApplicationID;
     property FieldMachineName: String read FMachineName write FMachineName;
     property FieldData: String read FData write FData;
     property TableName: String read FTableName write FTableName;
   end;
 
-  TUCTableHistorico = class(TPersistent)
+ TUCTableHistorico = class(TPersistent)
   private
     FTable: String;
     FApplicationID: String;
@@ -120,18 +110,16 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
-    property TableName: String read FTable write FTable; // nome da tabela
-    property FieldApplicationID: String read FApplicationID
-      write FApplicationID;
-    property FieldUserID: String read FUserID write FUserID;
-    property FieldEventDate: String read fDateEvent write fDateEvent;
-    property FieldEventTime: String read fEventTime Write fEventTime;
-    property FieldForm: String read fFieldForm write fFieldForm;
-    property FieldCaptionForm: string read fCaptionForm write fCaptionForm;
-    Property FieldEvent: String read fFieldEvent write fFieldEvent;
-    property FieldObs: String read fFieldObs write fFieldObs;
-    property FieldTableName: String read fFieldTableName write fFieldTableName;
-    // grava o nome da tabela monitorada
+    property TableName          : String read FTable write FTable; // nome da tabela
+    property FieldApplicationID : String read FApplicationID write FApplicationID;
+    property FieldUserID        : String read FUserID write FUserID;
+    property FieldEventDate     : String read fDateEvent write fDateEvent;
+    property FieldEventTime     : String read fEventTime Write fEventTime;
+    property FieldForm          : String read fFieldForm write fFieldForm;
+    property FieldCaptionForm   : string read fCaptionForm write fCaptionForm;
+    Property FieldEvent         : String read fFieldEvent write fFieldEvent;
+    property FieldObs           : String read fFieldObs write fFieldObs;
+    property FieldTableName     : String read fFieldTableName write fFieldTableName; // grava o nome da tabela monitorada
   end;
 
 implementation
@@ -142,11 +130,11 @@ procedure TUCTableRights.Assign(Source: TPersistent);
 begin
   if Source is TUCTableRights then
   begin
-    Self.FieldUserID := TUCTableRights(Source).FieldUserID;
-    Self.FieldModule := TUCTableRights(Source).FieldModule;
+    Self.FieldUserID        := TUCTableRights(Source).FieldUserID;
+    Self.FieldModule        := TUCTableRights(Source).FieldModule;
     Self.FieldComponentName := TUCTableRights(Source).FieldComponentName;
-    Self.FieldFormName := TUCTableRights(Source).FieldFormName;
-    Self.FieldKey := TUCTableRights(Source).FieldKey;
+    Self.FieldFormName      := TUCTableRights(Source).FieldFormName;
+    Self.FieldKey           := TUCTableRights(Source).FieldKey;
   end
   else
     inherited;
@@ -169,23 +157,19 @@ procedure TUCTableUsers.Assign(Source: TPersistent);
 begin
   if Source is TUCTableUsers then
   begin
-    Self.FieldUserID := TUCTableUsers(Source).FieldUserID;
-    Self.FieldUserName := TUCTableUsers(Source).FieldUserName;
-    Self.FieldLogin := TUCTableUsers(Source).FieldLogin;
-    Self.FieldPassword := TUCTableUsers(Source).FieldPassword;
-    Self.FieldEmail := TUCTableUsers(Source).FieldEmail;
-    Self.FieldPrivileged := TUCTableUsers(Source).FieldPrivileged;
-    Self.FieldProfile := TUCTableUsers(Source).FieldProfile;
-    Self.FieldKey := TUCTableUsers(Source).FieldKey;
-    Self.FieldDateExpired := TUCTableUsers(Source).FieldDateExpired;
-    { By Vicente Barros Leonel }
-    Self.FieldUserExpired := TUCTableUsers(Source).FieldUserExpired;
-    { By Vicente Barros Leonel }
-    Self.FieldUserDaysSun := TUCTableUsers(Source).FieldUserDaysSun;
-    { By vicente barros leonel }
-    Self.FieldUserInative := TUCTableUsers(Source).FieldUserInative;
-    { By vicente barros leonel }
-    Self.TableName := TUCTableUsers(Source).TableName;
+    Self.FieldUserID      := TUCTableUsers(Source).FieldUserID;
+    Self.FieldUserName    := TUCTableUsers(Source).FieldUserName;
+    Self.FieldLogin       := TUCTableUsers(Source).FieldLogin;
+    Self.FieldPassword    := TUCTableUsers(Source).FieldPassword;
+    Self.FieldEmail       := TUCTableUsers(Source).FieldEmail;
+    Self.FieldPrivileged  := TUCTableUsers(Source).FieldPrivileged;
+    Self.FieldProfile     := TUCTableUsers(Source).FieldProfile;
+    Self.FieldKey         := TUCTableUsers(Source).FieldKey;
+    Self.FieldDateExpired := TUCTableUsers(Source).FieldDateExpired; {By Vicente Barros Leonel}
+    Self.FieldUserExpired := TUCTableUsers(Source).FieldUserExpired; {By Vicente Barros Leonel}
+    Self.FieldUserDaysSun := TUCTableUsers(Source).FieldUserDaysSun; { By vicente barros leonel }
+    Self.FieldUserInative := TUCTableUsers(Source).FieldUserInative;  { By vicente barros leonel }
+    Self.TableName        := TUCTableUsers(Source).TableName;
   end
   else
     inherited;
@@ -207,12 +191,12 @@ procedure TUCTableUsersLogged.Assign(Source: TPersistent);
 begin
   if Source is TUCTableUsersLogged then
   begin
-    Self.FieldLogonID := TUCTableUsersLogged(Source).FieldLogonID;
-    Self.FieldUserID := TUCTableUsersLogged(Source).FieldUserID;
+    Self.FieldLogonID       := TUCTableUsersLogged(Source).FieldLogonID;
+    Self.FieldUserID        := TUCTableUsersLogged(Source).FieldUserID;
     Self.FieldApplicationID := TUCTableUsersLogged(Source).FieldApplicationID;
-    Self.FieldMachineName := TUCTableUsersLogged(Source).FieldMachineName;
-    Self.FieldData := TUCTableUsersLogged(Source).FieldData;
-    Self.TableName := TUCTableUsersLogged(Source).TableName;
+    Self.FieldMachineName   := TUCTableUsersLogged(Source).FieldMachineName;
+    Self.FieldData          := TUCTableUsersLogged(Source).FieldData;
+    Self.TableName          := TUCTableUsersLogged(Source).TableName;
   end
   else
     inherited;
@@ -235,15 +219,15 @@ begin
   if Source is TUCTableHistorico then
   begin
     Self.FieldApplicationID := TUCTableHistorico(Source).FieldApplicationID;
-    Self.FieldUserID := TUCTableHistorico(Source).FieldUserID;
-    Self.FieldEventDate := TUCTableHistorico(Source).FieldEventDate;
-    Self.TableName := TUCTableHistorico(Source).TableName;
-    Self.FieldForm := TUCTableHistorico(Source).FieldForm;
-    Self.FieldEvent := TUCTableHistorico(Source).FieldEvent;
-    Self.FieldObs := TUCTableHistorico(Source).FieldObs;
-    Self.FieldCaptionForm := TUCTableHistorico(Source).FieldCaptionForm;
-    Self.FieldEventTime := TUCTableHistorico(Source).FieldEventTime;
-    Self.FieldTableName := TUCTableHistorico(Source).FieldTableName;
+    Self.FieldUserID        := TUCTableHistorico(Source).FieldUserID;
+    Self.FieldEventDate     := TUCTableHistorico(Source).FieldEventDate;
+    Self.TableName          := TUCTableHistorico(Source).TableName;
+    Self.FieldForm          := TUCTableHistorico(Source).FieldForm;
+    Self.FieldEvent         := TUCTableHistorico(Source).FieldEvent;
+    Self.FieldObs           := TUCTableHistorico(Source).FieldObs;
+    Self.FieldCaptionForm   := TUCTableHistorico(Source).FieldCaptionForm;
+    Self.FieldEventTime     := TUCTableHistorico(Source).FieldEventTime;
+    Self.FieldTableName     := TUCTableHistorico(Source).FieldTableName;
   end
   else
     inherited;
@@ -260,3 +244,4 @@ begin
 end;
 
 end.
+

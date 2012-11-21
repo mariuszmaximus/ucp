@@ -2,135 +2,52 @@
 { VERXXX to DELPHIX                                                            }
 {------------------------------------------------------------------------------}
 
-// Delphi 1
-{$IFDEF VER80}
-  {$DEFINE DELPHI1}
-{$ENDIF}
-
-// Delphi 2
-{$IFDEF VER90}
-  {$DEFINE DELPHI2}
-{$ENDIF}
-
-// Delphi 3
-{$IFDEF VER100}
+{$IFDEF VER110}
   {$DEFINE DELPHI3}
 {$ENDIF}
 
-// Delphi 4
 {$IFDEF VER120}
   {$DEFINE DELPHI4}
 {$ENDIF}
 
-// Delphi 5
 {$IFDEF VER130}
   {$DEFINE DELPHI5}
 {$ENDIF}
 
-// Delphi 6
 {$IFDEF VER140}
   {$DEFINE DELPHI6}
 {$ENDIF}
 
-// Delphi 7
 {$IFDEF VER150}
   {$DEFINE DELPHI7}
 {$ENDIF}
 
-// Delphi 8
 {$IFDEF VER160}
   {$DEFINE DELPHI8}
 {$ENDIF}
 
-// Delphi 2005
 {$IFDEF VER170}
   {$DEFINE DELPHI9}
 {$ENDIF}
 
-// Delphi 2006
 {$IFDEF VER180}
   {$DEFINE DELPHI10}
 {$ENDIF}
 
-// Delphi 2007
-{$IFDEF VER180}
+{$IFDEF VER190}
   {$DEFINE DELPHI11}
 {$ENDIF}
 
-// Delphi 2007
-{$IFDEF VER185}
+{$IFDEF VER200}
   {$DEFINE DELPHI12}
 {$ENDIF}
 
-// Delphi 2009
-{$IFDEF VER200}
-  {$DEFINE DELPHI13}
-{$ENDIF}
-
-// Delphi 2010
 {$IFDEF VER210}
-  {$DEFINE DELPHI14}
+  {$DEFINE DELPHI12}
 {$ENDIF}
-
-// Delphi XE
-{$IFDEF VER220}
-  {$DEFINE DELPHI15}
-{$ENDIF}
-
 {------------------------------------------------------------------------------}
 { DELPHIX_UP from DELPHIX mappings                                             }
 {------------------------------------------------------------------------------}
-
-{$IFDEF DELPHI15}
-  {$DEFINE DELPHI15_UP}
-  {$DEFINE DELPHI14_UP}
-  {$DEFINE DELPHI13_UP}
-  {$DEFINE DELPHI12_UP}
-  {$DEFINE DELPHI11_UP}
-  {$DEFINE DELPHI10_UP}
-  {$DEFINE DELPHI9_UP}
-  {$DEFINE DELPHI8_UP}
-  {$DEFINE DELPHI7_UP}
-  {$DEFINE DELPHI6_UP}
-  {$DEFINE DELPHI5_UP}
-  {$DEFINE DELPHI4_UP}
-  {$DEFINE DELPHI3_UP}
-  {$DEFINE DELPHI2_UP}
-  {$DEFINE DELPHI1_UP}
-{$ENDIF}
-
-{$IFDEF DELPHI14}
-  {$DEFINE DELPHI14_UP}
-  {$DEFINE DELPHI13_UP}
-  {$DEFINE DELPHI12_UP}
-  {$DEFINE DELPHI11_UP}
-  {$DEFINE DELPHI10_UP}
-  {$DEFINE DELPHI9_UP}
-  {$DEFINE DELPHI8_UP}
-  {$DEFINE DELPHI7_UP}
-  {$DEFINE DELPHI6_UP}
-  {$DEFINE DELPHI5_UP}
-  {$DEFINE DELPHI4_UP}
-  {$DEFINE DELPHI3_UP}
-  {$DEFINE DELPHI2_UP}
-  {$DEFINE DELPHI1_UP}
-{$ENDIF}
-
-{$IFDEF DELPHI13}
-  {$DEFINE DELPHI13_UP}
-  {$DEFINE DELPHI12_UP}
-  {$DEFINE DELPHI11_UP}
-  {$DEFINE DELPHI10_UP}
-  {$DEFINE DELPHI9_UP}
-  {$DEFINE DELPHI8_UP}
-  {$DEFINE DELPHI7_UP}
-  {$DEFINE DELPHI6_UP}
-  {$DEFINE DELPHI5_UP}
-  {$DEFINE DELPHI4_UP}
-  {$DEFINE DELPHI3_UP}
-  {$DEFINE DELPHI2_UP}
-  {$DEFINE DELPHI1_UP}
-{$ENDIF}
 
 {$IFDEF DELPHI12}
   {$DEFINE DELPHI12_UP}
@@ -246,9 +163,11 @@
   {$DEFINE DELPHI1_UP}
 {$ENDIF}
 
-{------------------------------------------------------------------------------}
-{ Defintions to right work                                                     }
-{------------------------------------------------------------------------------}
+(*
+
+  Definições de funcionamento
+
+*)
 
 {$IFDEF DELPHI7_UP}
   {$WARN UNSAFE_TYPE OFF}
@@ -271,11 +190,6 @@
   {$WARN UNIT_EXPERIMENTAL OFF}
 {$ENDIF}
 
-{$IFDEF FPC}
-  {$DEFINE DELPHI5}
-  {$DEFINE DELPHI5_UP}
-{$ENDIF}
-
-{------------------------------------------------------------------------------}
-{ User Defintions                                                              }
-{------------------------------------------------------------------------------}
+(*
+  Definições do Usuario
+*)

@@ -826,11 +826,8 @@ object AboutForm: TAboutForm
           Top = 264
           Width = 75
           Height = 25
-          DoubleBuffered = True
-          Kind = bkOK
-          NumGlyphs = 2
-          ParentDoubleBuffered = False
           TabOrder = 0
+          Kind = bkOK
         end
       end
     end

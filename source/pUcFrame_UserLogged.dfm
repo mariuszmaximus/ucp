@@ -67,6 +67,7 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitWidth = 320
     DesignSize = (
       578
       48)
@@ -77,7 +78,7 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
       Height = 25
       Anchors = [akTop, akRight]
       Caption = '&Fechar'
-      DoubleBuffered = True
+      TabOrder = 2
       Glyph.Data = {
         B6020000424DB602000000000000B60100002800000010000000100000000100
         08000000000000010000120B0000120B0000600000006000000000000000FFFF
@@ -101,8 +102,7 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
         254307474D4B4D3F4502020245302A2B292D07474D4B4D3F4502020245352E2C
         2E3207474D4B4D3F450202024545332F343107464A494A3F450202020202453C
         3744074545454545450202020202020245450702020202020202}
-      ParentDoubleBuffered = False
-      TabOrder = 2
+      ExplicitLeft = 212
     end
     object BitMsg: TBitBtn
       Left = 270
@@ -111,7 +111,8 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
       Height = 25
       Anchors = [akTop, akRight]
       Caption = '&Mensagem'
-      DoubleBuffered = True
+      TabOrder = 0
+      OnClick = BitMsgClick
       Glyph.Data = {
         42020000424D4202000000000000420000002800000010000000100000000100
         1000030000000002000000000000000000000000000000000000007C0000E003
@@ -132,9 +133,7 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
         1F7C1F7C1F7C1F7C1F7C1F7CD852DB7FDB7FDB7FDB7FB97F977F0D191F7C1F7C
         1F7C1F7C1F7C1F7C1F7C1F7C1F7CD852D852D852D852D852D8521F7C1F7C1F7C
         1F7C1F7C1F7C}
-      ParentDoubleBuffered = False
-      TabOrder = 0
-      OnClick = BitMsgClick
+      ExplicitLeft = 12
     end
     object BitRefresh: TBitBtn
       Left = 369
@@ -143,7 +142,8 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
       Height = 25
       Anchors = [akTop, akRight]
       Caption = '&Atualizar'
-      DoubleBuffered = True
+      TabOrder = 1
+      OnClick = BitRefreshClick
       Glyph.Data = {
         36050000424D3605000000000000360400002800000010000000100000000100
         0800000000000001000000000000000000000001000000010000FF00FF000029
@@ -187,9 +187,7 @@ object UCFrame_UsersLogged: TUCFrame_UsersLogged
         4E52524B2A1F1F1B0A00001C48392F2E465235271F21211B0B00001C49463F3C
         37312E2A2721271F0C00001C3F494948443C312C2727212110000000242B2B2B
         2A271F1F1F1C1C15000000000000000000000000000000000000}
-      ParentDoubleBuffered = False
-      TabOrder = 1
-      OnClick = BitRefreshClick
+      ExplicitLeft = 111
     end
   end
   object dsDados: TDataSource

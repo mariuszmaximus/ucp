@@ -1,17 +1,13 @@
 unit IncPerfil_U;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-  {$IFDEF DELPHI5_UP}
+{.$IFDEF DELPHI5_UP}
   Variants,
-  {$ENDIF}
+{.$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -23,21 +19,19 @@ uses
   Messages,
   StdCtrls,
   SysUtils,
-  UCBase
-  {$IFNDEF FPC},
-  Windows
-  {$ENDIF};
+  UCBase,
+  Windows;
 
 type
   TfrmIncluirPerfil = class(TForm)
-    Panel1: TPanel;
-    LbDescricao: TLabel;
-    Image1: TImage;
-    Panel3: TPanel;
-    btGravar: TBitBtn;
-    btCancela: TBitBtn;
-    Panel2: TPanel;
-    lbNome: TLabel;
+    Panel1:        TPanel;
+    LbDescricao:   TLabel;
+    Image1:        TImage;
+    Panel3:        TPanel;
+    btGravar:      TBitBtn;
+    btCancela:     TBitBtn;
+    Panel2:        TPanel;
+    lbNome:        TLabel;
     EditDescricao: TEdit;
     procedure btCancelaClick(Sender: TObject);
     procedure btGravarClick(Sender: TObject);
@@ -45,10 +39,10 @@ type
     function GetNewIdUser: Integer;
     { Private declarations }
   public
-    FAltera: Boolean;
+    FAltera:      Boolean;
     FUserControl: TUserControl;
-    FNewIdUser: Integer;
-    FDataSetPerfilUsuario: TDataSet;
+    FNewIdUser : Integer;
+    FDataSetPerfilUsuario : TDataSet;
   end;
 
 implementation
@@ -62,32 +56,39 @@ end;
 
 procedure TfrmIncluirPerfil.btGravarClick(Sender: TObject);
 var
-  FProfile: String;
+  FProfile:   String;
 begin
   btGravar.Enabled := False;
   with FUserControl do
     if not FAltera then
     begin // inclui perfil
       FNewIdUser := GetNewIdUser;
-      FProfile := EditDescricao.Text;
+      FProfile   := EditDescricao.Text;
       if Assigned(onAddProfile) then
         onAddProfile(TObject(Self.Owner.Owner), FProfile);
 
-      DataConnector.UCExecSQL
-        (Format('INSERT INTO %s(%s, %s, %s) Values(%d,%s,%s)',
-        [TableUsers.TableName, TableUsers.FieldUserID, TableUsers.FieldUserName,
-        TableUsers.FieldTypeRec, FNewIdUser, QuotedStr(FProfile),
+
+      DataConnector.UCExecSQL(Format('INSERT INTO %s(%s, %s, %s) Values(%d,%s,%s)',
+        [TableUsers.TableName,
+        TableUsers.FieldUserID,
+        TableUsers.FieldUserName,
+        TableUsers.FieldTypeRec,
+        FNewIdUser,
+        QuotedStr(FProfile),
         QuotedStr('P')]));
 
     end
     else
     begin // alterar perfil
-      // FNewIdUser := TfrmCadastrarPerfil(Self.Owner).FDataSetPerfilUsuario.FieldByName('IdUser').AsInteger;
-      FProfile := EditDescricao.Text;
+      //FNewIdUser := TfrmCadastrarPerfil(Self.Owner).FDataSetPerfilUsuario.FieldByName('IdUser').AsInteger;
+      FProfile   := EditDescricao.Text;
 
       DataConnector.UCExecSQL(Format('UPDATE %s SET %s = %s WHERE %s = %d',
-        [TableUsers.TableName, TableUsers.FieldUserName, QuotedStr(FProfile),
-        TableUsers.FieldUserID, FNewIdUser]));
+        [TableUsers.TableName,
+        TableUsers.FieldUserName,
+        QuotedStr(FProfile),
+        TableUsers.FieldUserID,
+        FNewIdUser]));
     end;
   FDataSetPerfilUsuario.Close;
   FDataSetPerfilUsuario.Open;
@@ -97,15 +98,14 @@ end;
 
 function TfrmIncluirPerfil.GetNewIdUser: Integer;
 var
-  TempDs: TDataSet;
+  TempDs: TDataset;
 begin
   with FUserControl do
-    TempDs := DataConnector.UCGetSQLDataSet('SELECT ' + TableUsers.FieldUserID +
-      ' as MaxUserID from ' + TableUsers.TableName + ' ORDER BY ' +
-      TableUsers.FieldUserID + ' DESC');
+    TempDS := DataConnector.UCGetSQLDataSet('SELECT ' + TableUsers.FieldUserID + ' as MaxUserID from ' + TableUsers.TableName +
+      ' ORDER BY ' + TableUsers.FieldUserID + ' DESC');
   Result := TempDs.FieldByName('MaxUserID').AsInteger + 1;
-  TempDs.Close;
-  FreeAndNil(TempDs);
+  TempDS.Close;
+  FreeAndNil(TempDS);
 end;
 
 end.

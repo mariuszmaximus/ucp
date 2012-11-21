@@ -13,7 +13,6 @@ object TrocaSenha: TTrocaSenha
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poMainFormCenter
   OnActivate = FormActivate
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -165,7 +164,7 @@ object TrocaSenha: TTrocaSenha
       Width = 81
       Height = 25
       Caption = '&Gravar'
-      DoubleBuffered = True
+      TabOrder = 0
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
@@ -218,8 +217,6 @@ object TrocaSenha: TTrocaSenha
         6FCE726FCE726FCE726FFF00FF9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A
         9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 0
     end
     object btCancel: TBitBtn
       Left = 8
@@ -227,7 +224,8 @@ object TrocaSenha: TTrocaSenha
       Width = 81
       Height = 25
       Caption = '&Cancelar'
-      DoubleBuffered = True
+      TabOrder = 1
+      OnClick = btCancelClick
       Glyph.Data = {
         66030000424D6603000000000000660200002800000010000000100000000100
         08000000000000010000120B0000120B00008C0000008C00000000000000FFFF
@@ -257,9 +255,6 @@ object TrocaSenha: TTrocaSenha
         14212E44757D69577902024D0D08011218241F3253016140790202024D0A0C01
         0E1C2A390156787902020202024D4D1A1B2735334C797902020202020202024D
         4D4D4D4D4D0202020202}
-      ParentDoubleBuffered = False
-      TabOrder = 1
-      OnClick = btCancelClick
     end
   end
   object Panel2: TPanel

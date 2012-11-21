@@ -1,17 +1,13 @@
 unit IncUser_U;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-  {$IFDEF DELPHI5_UP}
+{$IFDEF DELPHI5_UP}
   Variants,
-  {$ENDIF}
+{$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -25,36 +21,34 @@ uses
   Spin,
   StdCtrls,
   SysUtils,
-  UCBase
-  {$IFNDEF FPC},
-  Windows
-  {$ENDIF};
+  UCBase,
+  Windows;
 
 type
   TfrmIncluirUsuario = class(TForm)
-    Panel1: TPanel;
-    LbDescricao: TLabel;
-    Image1: TImage;
-    Panel3: TPanel;
-    btGravar: TBitBtn;
-    btCancela: TBitBtn;
-    Panel2: TPanel;
-    lbNome: TLabel;
-    EditNome: TEdit;
-    lbLogin: TLabel;
-    EditLogin: TEdit;
-    lbEmail: TLabel;
-    EditEmail: TEdit;
+    Panel1:         TPanel;
+    LbDescricao:    TLabel;
+    Image1:         TImage;
+    Panel3:         TPanel;
+    btGravar:       TBitBtn;
+    btCancela:      TBitBtn;
+    Panel2:         TPanel;
+    lbNome:         TLabel;
+    EditNome:       TEdit;
+    lbLogin:        TLabel;
+    EditLogin:      TEdit;
+    lbEmail:        TLabel;
+    EditEmail:      TEdit;
     ckPrivilegiado: TCheckBox;
-    lbPerfil: TLabel;
-    ComboPerfil: TDBLookupComboBox;
-    btlimpa: TSpeedButton;
-    ckUserExpired: TCheckBox;
-    LabelExpira: TLabel;
-    SpinExpira: TSpinEdit;
-    LabelDias: TLabel;
-    ComboStatus: TComboBox;
-    Label1: TLabel;
+    lbPerfil:       TLabel;
+    ComboPerfil:    TDBLookupComboBox;
+    btlimpa:        TSpeedButton;
+    ckUserExpired:  TCheckBox;
+    LabelExpira:    TLabel;
+    SpinExpira:     TSpinEdit;
+    LabelDias:      TLabel;
+    ComboStatus:    TComboBox;
+    Label1:         TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btCancelaClick(Sender: TObject);
     procedure btGravarClick(Sender: TObject);
@@ -68,10 +62,10 @@ type
     { Private declarations }
   public
     { Public declarations }
-    FAltera: Boolean;
-    FUserControl: TUserControl;
+    FAltera:                 Boolean;
+    FUserControl:            TUserControl;
     FDataSetCadastroUsuario: TDataSet;
-    vNovoIDUsuario: Integer;
+    vNovoIDUsuario:          Integer;
   end;
 
 implementation
@@ -81,8 +75,7 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmIncluirUsuario.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmIncluirUsuario.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
 end;
@@ -100,12 +93,12 @@ end;
 
 procedure TfrmIncluirUsuario.btGravarClick(Sender: TObject);
 var
-  vNovaSenha: String;
-  vNome: String;
-  vLogin: String;
-  vEmail: String;
-  vUserExpired: Integer;
-  vPerfil: Integer;
+  vNovaSenha:    String;
+  vNome:         String;
+  vLogin:        String;
+  vEmail:        String;
+  vUserExpired:  Integer;
+  vPerfil:       Integer;
   vPrivilegiado: Boolean;
 begin
   btGravar.Enabled := False;
@@ -115,28 +108,24 @@ begin
     begin // inclui user
       if Self.FUserControl.ExisteUsuario(EditLogin.Text) then
       begin
-        MessageDlg
-          (Format(FUserControl.UserSettings.CommonMessages.UsuarioExiste,
-          [EditLogin.Text]), mtWarning, [mbOK], 0);
+        MessageDlg(Format(FUserControl.UserSettings.CommonMessages.UsuarioExiste, [EditLogin.Text]), mtWarning, [mbOK], 0);
         Exit;
       end;
 
-      FormSenha := TSenhaForm.Create(Self);
-      TSenhaForm(FormSenha).Position := UserSettings.WindowsPosition;
-      TSenhaForm(FormSenha).FUserControl := FUserControl;
-      TSenhaForm(FormSenha).Caption :=
-        Format(FUserControl.UserSettings.ResetPassword.WindowCaption,
-        [EditLogin.Text]);
+      FormSenha                          := TSenhaForm.Create(Self);
+      TSenhaForm(FormSenha).Position     := UserSettings.WindowsPosition;
+      TSenhaForm(FormSenha).fUserControl := fUserControl;
+      TSenhaForm(FormSenha).Caption      := Format(FUserControl.UserSettings.ResetPassword.WindowCaption, [EditLogin.Text]);
       if TSenhaForm(FormSenha).ShowModal <> mrOk then
       begin
         btGravar.Enabled := True;
         Exit;
       end;
-      vNovaSenha := TSenhaForm(FormSenha).edtSenha.Text;
+      vNovaSenha     := TSenhaForm(FormSenha).edtSenha.Text;
       vNovoIDUsuario := GetNewIdUser;
-      vNome := EditNome.Text;
-      vLogin := EditLogin.Text;
-      vEmail := EditEmail.Text;
+      vNome          := EditNome.Text;
+      vLogin         := EditLogin.Text;
+      vEmail         := EditEmail.Text;
       FreeAndNil(FormSenha);
 
       if ComboPerfil.KeyValue = null then
@@ -145,28 +134,23 @@ begin
         vPerfil := ComboPerfil.KeyValue;
 
       vPrivilegiado := ckPrivilegiado.Checked;
-      vUserExpired := StrToInt(BoolToStr(ckUserExpired.Checked));
+      vUserExpired  := StrToInt( BoolToStr( ckUserExpired.Checked ) );
 
-      AddUser(vLogin, vNovaSenha, vNome, vEmail, vPerfil, vUserExpired,
-        SpinExpira.Value, vPrivilegiado);
+      AddUser(vLogin, vNovaSenha, vNome, vEmail, vPerfil, vUserExpired, SpinExpira.Value, vPrivilegiado);
 
-      {$IFNDEF FPC}
-      if (Assigned(FUserControl.MailUserControl)) and
-        (FUserControl.MailUserControl.AdicionaUsuario.Ativo) then
-        try
-          FUserControl.MailUserControl.EnviaEmailAdicionaUsuario(vNome, vLogin,
-            Encrypt(vNovaSenha, EncryptKey), vEmail, IntToStr(vPerfil),
-            EncryptKey);
-        except
-          on E: Exception do
-            Log(E.Message, 0);
-        end;
-      {$ENDIF}
+
+        if (Assigned( fUserControl.MailUserControl)) and (fUserControl.MailUserControl.AdicionaUsuario.Ativo ) then
+          try
+            fUserControl.MailUserControl.EnviaEmailAdicionaUsuario(vNome, vLogin, Encrypt(vNovaSenha, EncryptKey) , vEmail, IntToStr(vPerfil), EncryptKey);
+          except
+            on E : Exception do Log(e.Message, 0 );
+          end;
+
     end
     else
     begin // alterar user
-      // vNovoIDUsuario := TfrmCadastrarUsuario(Self.Owner).FDataSetCadastroUsuario.FieldByName('IdUser').AsInteger;
-      vNome := EditNome.Text;
+          //      vNovoIDUsuario := TfrmCadastrarUsuario(Self.Owner).FDataSetCadastroUsuario.FieldByName('IdUser').AsInteger;
+      vNome  := EditNome.Text;
       vLogin := EditLogin.Text;
       vEmail := EditEmail.Text;
       if ComboPerfil.KeyValue = null then
@@ -174,48 +158,42 @@ begin
       else
         vPerfil := ComboPerfil.KeyValue;
 
-      vUserExpired := StrToInt(BoolToStr(ckUserExpired.Checked));
-      // Added by Petrus van Breda 28/04/2007
+      vUserExpired  := StrToInt( BoolToStr ( ckUserExpired.Checked ) ); //Added by Petrus van Breda 28/04/2007
       vPrivilegiado := ckPrivilegiado.Checked;
-      ChangeUser(vNovoIDUsuario, vLogin, vNome, vEmail, vPerfil, vUserExpired,
-        SpinExpira.Value, ComboStatus.ItemIndex, vPrivilegiado);
+      ChangeUser(vNovoIDUsuario, vLogin, vNome, vEmail, vPerfil, vUserExpired, SpinExpira.Value, ComboStatus.ItemIndex, vPrivilegiado);
 
-      {$IFNDEF FPC}
-      if (Assigned(FUserControl.MailUserControl)) and
-        (FUserControl.MailUserControl.AlteraUsuario.Ativo) then
-        try
-          FUserControl.MailUserControl.EnviaEmailAlteraUsuario(vNome, vLogin,
-            'Não Alterada', vEmail, IntToStr(vPerfil), EncryptKey);
-        except
-          on E: Exception do
-            Log(E.Message, 2);
-        end;
-      {$ENDIF}
+
+        if (Assigned(fUserControl.MailUserControl)) and (fUserControl.MailUserControl.AlteraUsuario.Ativo ) then
+          try
+            fUserControl.MailUserControl.EnviaEmailAlteraUsuario(vNome, vLogin, 'Não Alterada', vEmail, IntToStr(vPerfil), EncryptKey);
+          except
+            on E : Exception do Log(e.Message, 2);
+          end;
+    
 
     end;
 
-  { With TfrmCadastrarUsuario(Owner) do
+{  With TfrmCadastrarUsuario(Owner) do
     Begin }
   FDataSetCadastroUsuario.Close;
   FDataSetCadastroUsuario.Open;
   FDataSetCadastroUsuario.Locate('idUser', vNovoIDUsuario, []);
-  // End;
+  //    End;
   Close;
 end;
 
 function TfrmIncluirUsuario.GetNewIdUser: Integer;
 var
-  DataSet: TDataSet;
+  DataSet: TDataset;
   SQLStmt: String;
 begin
   with FUserControl do
   begin
-    SQLStmt := Format('SELECT %s.%s FROM %s ORDER BY %s DESC',
-      [TableUsers.TableName, TableUsers.FieldUserID, TableUsers.TableName,
-      TableUsers.FieldUserID]);
+    SQLStmt := Format('SELECT %s.%s FROM %s ORDER BY %s DESC', [TableUsers.TableName, TableUsers.FieldUserID,
+      TableUsers.TableName, TableUsers.FieldUserID]);
     try
       DataSet := DataConnector.UCGetSQLDataSet(SQLStmt);
-      Result := DataSet.Fields[0].AsInteger + 1;
+      Result  := DataSet.Fields[0].AsInteger + 1;
       DataSet.Close;
     finally
       SysUtils.FreeAndNil(DataSet);
@@ -223,18 +201,18 @@ begin
   end;
 end;
 
-procedure TfrmIncluirUsuario.btlimpaClick(Sender: TObject);
+procedure TfrmIncluirUsuario.btLimpaClick(Sender: TObject);
 begin
-  ComboPerfil.KeyValue := null;
+  ComboPerfil.KeyValue := NULL;
 end;
 
 procedure TfrmIncluirUsuario.FormShow(Sender: TObject);
 begin
   if not FUserControl.UserProfile.Active then
   begin
-    lbPerfil.Visible := False;
+    lbPerfil.Visible    := False;
     ComboPerfil.Visible := False;
-    btlimpa.Visible := False;
+    btLimpa.Visible     := False;
   end
   else
   begin
@@ -242,18 +220,17 @@ begin
     ComboPerfil.ListSource.DataSet.Open;
   end;
 
-  // Opção de senha so deve aparecer qdo setada como true no componente By Vicente Barros Leonel
-  ckUserExpired.Visible := FUserControl.Login.ActiveDateExpired;
+  //Opção de senha so deve aparecer qdo setada como true no componente By Vicente Barros Leonel
+  ckUserExpired.Visible := FUserControl.Login.ActiveDateExpired ;
 
   ckPrivilegiado.Visible := FUserControl.User.UsePrivilegedField;
   EditLogin.CharCase := Self.FUserControl.Login.CharCaseUser;
 
-  SpinExpira.Visible := ckUserExpired.Visible;
+  SpinExpira.Visible  := ckUserExpired.Visible;
   LabelExpira.Visible := ckUserExpired.Visible;
-  LabelDias.Visible := ckUserExpired.Visible;
+  LabelDias.Visible   := ckUserExpired.Visible;
 
-  if (FUserControl.User.ProtectAdministrator) and
-    (EditLogin.Text = FUserControl.Login.InitialLogin.User) then
+  if (FUserControl.User.ProtectAdministrator) and (EditLogin.Text = FUserControl.Login.InitialLogin.User) then
     EditLogin.Enabled := False;
 end;
 
@@ -263,3 +240,4 @@ begin
 end;
 
 end.
+

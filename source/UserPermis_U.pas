@@ -6,16 +6,13 @@ interface
 
 uses
   UCBase,
-  {$IFNDEF FPC}
-  Windows,
   {.$IFDEF UCACTMANAGER}
   ActnMan,
   ActnMenus,
   {.$ENDIF}
-  {$ENDIF}
-  {$IFDEF DELPHI5_UP}
+  {.$IFDEF DELPHI5_UP}
   Variants,
-  {$ENDIF}
+  {.$ENDIF}
   Buttons,
   Classes,
   ComCtrls,
@@ -26,50 +23,49 @@ uses
   Graphics,
   ImgList,
   Menus,
-  StdCtrls,
-  ActnList;
+  StdCtrls;
 
 type
   PTreeMenu = ^TTreeMenu;
 
   TTreeMenu = record
     Selecionado: Integer;
-    MenuName: String;
+    MenuName:    String;
   end;
 
   PTreeAction = ^TTreeAction;
 
   TTreeAction = record
-    Grupo: Boolean;
+    Grupo:       Boolean;
     Selecionado: Integer;
-    MenuName: String;
+    MenuName:    String;
   end;
 
   PTreeControl = ^TTreeControl;
 
   TTreeControl = record
-    Grupo: Boolean;
+    Grupo:       Boolean;
     Selecionado: Integer;
-    CompName: String;
-    FormName: String;
+    CompName:    String;
+    FormName:    String;
   end;
 
   TUserPermis = class(TForm)
-    Panel1: TPanel;
-    LbDescricao: TLabel;
-    Image1: TImage;
-    Panel3: TPanel;
-    BtLibera: TBitBtn;
-    BtBloqueia: TBitBtn;
-    BtGrava: TBitBtn;
-    lbUser: TLabel;
-    ImageList1: TImageList;
-    BtCancel: TBitBtn;
-    PC: TPageControl;
-    PageMenu: TTabSheet;
-    PageAction: TTabSheet;
-    TreeMenu: TTreeView;
-    TreeAction: TTreeView;
+    Panel1:       TPanel;
+    LbDescricao:  TLabel;
+    Image1:       TImage;
+    Panel3:       TPanel;
+    BtLibera:     TBitBtn;
+    BtBloqueia:   TBitBtn;
+    BtGrava:      TBitBtn;
+    lbUser:       TLabel;
+    ImageList1:   TImageList;
+    BtCancel:     TBitBtn;
+    PC:           TPageControl;
+    PageMenu:     TTabSheet;
+    PageAction:   TTabSheet;
+    TreeMenu:     TTreeView;
+    TreeAction:   TTreeView;
     PageControls: TTabSheet;
     TreeControls: TTreeView;
     procedure BtGravaClick(Sender: TObject);
@@ -80,44 +76,40 @@ type
     procedure FormShow(Sender: TObject);
     procedure TreeActionClick(Sender: TObject);
     procedure TreeControlsClick(Sender: TObject);
-    procedure TreeMenuCollapsing(Sender: TObject; Node: TTreeNode;
-      var AllowCollapse: Boolean);
+    procedure TreeMenuCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
     procedure TreeMenuKeyPress(Sender: TObject; var Key: char);
-    procedure TreeMenuMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure TreeMenuMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormDestroy(Sender: TObject);
   private
-    FMenu: TMenu;
-    FActions: TObject;
-    FChangingTree: Boolean;
-    FTempMPointer: PTreeMenu;
-    FTempAPointer: PTreeAction;
-    FTempCPointer: PTreeControl;
-    FExtraRights: TUCExtraRights;
-    FTempLista: TStringList;
-    FListaAction: array of PTreeAction;
-    FListaMenu: array of PTreeMenu;
-    FListaControl: array of PTreeControl;
-    {$IFNDEF FPC}
-    { .$IFDEF UCACTMANAGER }
+    FMenu:              TMenu;
+    FActions:           TObject;
+    FChangingTree:      Boolean;
+    FTempMPointer:      PTreeMenu;
+    FTempAPointer:      PTreeAction;
+    FTempCPointer:      PTreeControl;
+    FExtraRights:       TUCExtraRights;
+    FTempLista:         TStringList;
+    FListaAction:       array of PTreeAction;
+    FListaMenu:         array of PTreeMenu;
+    FListaControl:      array of PTreeControl;
+    {.$IFDEF UCACTMANAGER}
     FActionMainMenuBar: TActionMainMenuBar;
-    procedure TrataItem(IT: TActionClientItem; Node: TTreeNode); overload;
-    { .$ENDIF }
-    {$ENDIF}
-    procedure TrataItem(IT: TMenuItem; Node: TTreeNode); overload;
+    procedure TrataItem(IT: TActionClientItem; node: TTreeNode); overload;
+    {.$ENDIF}
+    procedure TrataItem(IT: TMenuItem; node: TTreeNode); overload;
     procedure TreeMenuItem(marca: Boolean);
     procedure Atualiza(Selec: Boolean);
     procedure TreeActionItem(marca: Boolean);
-    procedure UnCheckChild(Node: TTreeNode);
+    procedure UnCheckChild(node: TTreeNode);
     procedure TreeControlItem(marca: Boolean);
     procedure CarregaTreeviews;
   public
-    FTempIdUser: Integer;
+    FTempIdUser:  Integer;
     FUserControl: TUserControl;
-    DSPermiss: TDataset;
-    DSPermissEX: TDataset;
-    DSPerfil: TDataset;
-    DSPerfilEX: TDataset;
+    DSPermiss:    TDataset;
+    DSPermissEX:  TDataset;
+    DSPerfil:     TDataset;
+    DSPerfilEX:   TDataset;
   end;
 
 var
@@ -126,8 +118,10 @@ var
 implementation
 
 uses
+  ActnList,
   Messages,
-  SysUtils;
+  SysUtils,
+  Windows;
 
 {$R *.dfm}
 
@@ -135,153 +129,123 @@ procedure TUserPermis.BtGravaClick(Sender: TObject);
 var
   Contador: Integer;
 begin
-  with FUserControl.TableRights do
+  with fUserControl.TableRights do
   begin
-    FUserControl.DataConnector.UCExecSQL('Delete from ' + TableName + ' Where '
-      + FieldUserID + ' = ' + IntToStr(FTempIdUser) + ' and ' + FieldModule +
-      ' = ' + QuotedStr(FUserControl.ApplicationID));
-    FUserControl.DataConnector.UCExecSQL('Delete from ' + TableName +
-      'EX Where ' + FieldUserID + ' = ' + IntToStr(FTempIdUser) + ' and ' +
-      FieldModule + ' = ' + QuotedStr(FUserControl.ApplicationID));
+    fUserControl.DataConnector.UCExecSQL('Delete from ' + TableName + ' Where ' + FieldUserID + ' = ' + IntToStr(FTempIdUser) + ' and ' + FieldModule + ' = ' + QuotedStr(fUserControl.ApplicationID));
+    fUserControl.DataConnector.UCExecSQL('Delete from ' + TableName + 'EX Where ' + FieldUserID + ' = ' + IntToStr(FTempIdUser) + ' and ' + FieldModule + ' = ' + QuotedStr(fUserControl.ApplicationID));
   end;
 
   for Contador := 0 to TreeMenu.Items.Count - 1 do
     if PTreeMenu(TreeMenu.Items[Contador].Data).Selecionado = 1 then
-      FUserControl.AddRight(FTempIdUser,
-        PTreeMenu(TreeMenu.Items[Contador].Data).MenuName);
+      fUserControl.AddRight(FTempIdUser, PTreeMenu(TreeMenu.Items[Contador].Data).MenuName);
 
   for Contador := 0 to TreeAction.Items.Count - 1 do
     if PTreeAction(TreeAction.Items[Contador].Data).Selecionado = 1 then
-      FUserControl.AddRight(FTempIdUser,
-        PTreeAction(TreeAction.Items[Contador].Data).MenuName);
+      fUserControl.AddRight(FTempIdUser, PTreeAction(TreeAction.Items[Contador].Data).MenuName);
 
-  // Extra Rights
+  //Extra Rights
   for Contador := 0 to Pred(TreeControls.Items.Count) do
     if PTreeControl(TreeControls.Items[Contador].Data).Selecionado = 1 then
-      FUserControl.AddRightEX(FTempIdUser, FUserControl.ApplicationID,
-        PTreeControl(TreeControls.Items[Contador].Data).FormName,
-        PTreeControl(TreeControls.Items[Contador].Data).CompName);
+      fUserControl.AddRightEX(FTempIdUser, fUserControl.ApplicationID, PTreeControl(TreeControls.Items[Contador].Data).FormName, PTreeControl(TreeControls.Items[Contador].Data).CompName);
 
   Close;
 end;
 
-procedure TUserPermis.TrataItem(IT: TMenuItem; Node: TTreeNode);
+procedure TUserPermis.TrataItem(IT: TMenuItem; node: TTreeNode);
 var
-  Contador: Integer;
+  contador: Integer;
   TempNode: TTreeNode;
 begin
-  for Contador := 0 to IT.Count - 1 do
+  for contador := 0 to IT.Count - 1 do
     if IT.Items[Contador].Caption <> '-' then
       if IT.Items[Contador].Count > 0 then
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := IT.Items[Contador].Name;
-        TempNode := TreeMenu.Items.AddChildObject(Node,
-          StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]),
-          FTempMPointer);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := IT.Items[Contador].Name;
+        TempNode                     := TreeMenu.Items.AddChildObject(node, StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
         TrataItem(IT.Items[Contador], TempNode);
       end
       else
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := IT.Items[Contador].Name;
-        TreeMenu.Items.AddChildObject(Node,
-          StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]),
-          FTempMPointer);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := IT.Items[Contador].Name;
+        TreeMenu.Items.AddChildObject(node, StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
       end;
 end;
 
-{$IFNDEF FPC}
-{ .$IFDEF UCACTMANAGER }
-procedure TUserPermis.TrataItem(IT: TActionClientItem; Node: TTreeNode);
+{.$IFDEF UCACTMANAGER}
+procedure TUserPermis.TrataItem(IT: TActionClientItem; node: TTreeNode);
 var
-  Contador: Integer;
+  contador: Integer;
   TempNode: TTreeNode;
 begin
-  for Contador := 0 to IT.Items.Count - 1 do
+  for contador := 0 to IT.Items.Count - 1 do
     if IT.Items[Contador].Caption <> '-' then
       if IT.Items[Contador].Items.Count > 0 then
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := #1 + 'G' + IT.Items[Contador].Caption;
-        TempNode := TreeMenu.Items.AddChildObject(Node,
-          StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]),
-          FTempMPointer);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := #1 + 'G' + IT.Items[Contador].Caption;
+        TempNode                     := TreeMenu.Items.AddChildObject(node, StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
         TrataItem(IT.Items[Contador], TempNode);
       end
       else
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := IT.Items[Contador].Action.Name;
-        TreeMenu.Items.AddChildObject(Node,
-          StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]),
-          FTempMPointer);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := IT.Items[Contador].Action.Name;
+        TreeMenu.Items.AddChildObject(node, StringReplace(IT.Items[Contador].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
       end;
 end;
-{ .$ENDIF }
-{$ENDIF}
+
+{.$ENDIF}
 
 procedure TUserPermis.CarregaTreeviews;
 var
   Contador: Integer;
   TempNode: TTreeNode;
-  Temp: String;
-  Temp2: String;
-  Desc: String;
+  Temp:     String;
+  Temp2:    String;
+  Desc:     String;
 begin
   FChangingTree := False;
   PC.ActivePage := PageMenu;
 
-  { Self.FMenu              := fUserControl.ControlRight.MainMenu;
-    Self.FActionMainMenuBar := fUserControl.ControlRight.ActionMainMenuBar;
-    if Assigned(fUserControl.ControlRight.ActionList) then
+{  Self.FMenu              := fUserControl.ControlRight.MainMenu;
+  Self.FActionMainMenuBar := fUserControl.ControlRight.ActionMainMenuBar;
+  if Assigned(fUserControl.ControlRight.ActionList) then
     Self.FActions := fUserControl.ControlRight.ActionList
-    else
+  else
     Self.FActions := fUserControl.ControlRight.ActionManager; }
 
-  Self.FMenu := FUserControl.ControlRight.MainMenu;
-  {$IFNDEF FPC}
-  Self.FActionMainMenuBar := FUserControl.ControlRight.ActionMainMenuBar;
-  if Assigned(FUserControl.ControlRight.ActionList) then
-    Self.FActions := FUserControl.ControlRight.ActionList
+  Self.FMenu              := fUsercontrol.ControlRight.MainMenu;
+  Self.FActionMainMenuBar := fUsercontrol.ControlRight.ActionMainMenuBar;
+  if Assigned(fUsercontrol.ControlRight.ActionList) then
+    Self.FActions := fUsercontrol.ControlRight.ActionList
   else
-    Self.FActions := FUserControl.ControlRight.ActionManager;
-  {$ELSE}
-  if Assigned(FUserControl.ControlRight.ActionList) then
-    Self.FActions := FUserControl.ControlRight.ActionList;
-  {$ENDIF}
-  Self.FExtraRights := FUserControl.ExtraRights;
+    Self.FActions := fUsercontrol.ControlRight.ActionManager;
+  Self.FExtraRights := fUsercontrol.ExtraRights;
 
-  (* if (not Assigned(FMenu)) and (not Assigned(fUserControl.ControlRight.ActionList))
-    {.$IFDEF UCACTMANAGER} and (not Assigned(fUserControl.ControlRight.ActionManager)) and
-    (not Assigned(fUserControl.ControlRight.ActionMainMenuBar))
-    {.$ENDIF} then
-    begin
-    if (Assigned(FMenu))
-    {.$IFDEF UCACTMANAGER} and (not Assigned(fUserControl.ControlRight.ActionMainMenuBar))
-    {.$ENDIF} then *)
+    (*if (not Assigned(FMenu)) and (not Assigned(fUserControl.ControlRight.ActionList))
+        {.$IFDEF UCACTMANAGER} and (not Assigned(fUserControl.ControlRight.ActionManager)) and
+        (not Assigned(fUserControl.ControlRight.ActionMainMenuBar))
+      {.$ENDIF} then
+      begin
+        if (Assigned(FMenu))
+          {.$IFDEF UCACTMANAGER} and (not Assigned(fUserControl.ControlRight.ActionMainMenuBar))
+        {.$ENDIF} then*)
 
-  // TempNode := nil;
+  //TempNode := nil;
   if Assigned(FMenu) then
   begin
     TreeMenu.Items.Clear;
@@ -289,87 +253,64 @@ begin
       if FMenu.Items[Contador].Count > 0 then
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := FMenu.Items[Contador].Name;
-        TempNode := TreeMenu.Items.AddObject(nil,
-          StringReplace(FMenu.Items[Contador].Caption, '&', '', [rfReplaceAll]),
-          FTempMPointer);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := FMenu.Items[Contador].Name;
+        TempNode                     := TreeMenu.Items.AddObject(nil, StringReplace(FMenu.Items[Contador].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
         TrataItem(FMenu.Items[Contador], TempNode);
       end
-      else if FMenu.Items[Contador].Caption <> '-' then
-      begin
-        New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := FMenu.Items[Contador].Name;
-        TreeMenu.Items.AddObject(nil,
-          StringReplace(FMenu.Items[Contador].Caption, '&', '', [rfReplaceAll]),
-          FTempMPointer);
-      end;
+      else
+        if FMenu.Items[Contador].Caption <> '-' then
+        begin
+          New(FTempMPointer);
+          SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+          FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+          FTempMPointer.Selecionado    := 0;
+          FTempMPointer.MenuName       := FMenu.Items[Contador].Name;
+          TreeMenu.Items.AddObject(nil, StringReplace(FMenu.Items[Contador].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
+        end;
     TreeMenu.FullExpand;
-    {$IFNDEF FPC}
     TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
-    {$ENDIF}
   end;
 
-  {$IFNDEF FPC}
-  { .$IFDEF UCACTMANAGER }
-  // TempNode := nil;
+  {.$IFDEF UCACTMANAGER}
+  //TempNode := nil;
   if Assigned(FActionMainMenuBar) then
   begin
     TreeMenu.Items.Clear;
     for Contador := 0 to FActionMainMenuBar.ActionClient.Items.Count - 1 do
     begin
       Temp := IntToStr(Contador);
-      if FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)
-        ].Items.Count > 0 then
+      if FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)].Items.Count > 0 then
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := #1 + 'G' + FActionMainMenuBar.ActionClient.
-          Items[StrToInt(Temp)].Caption;
-        TempNode := TreeMenu.Items.AddObject(nil,
-          StringReplace(FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)
-          ].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
-        TrataItem(FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)],
-          TempNode);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := #1 + 'G' + FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)].Caption;
+        TempNode                     := TreeMenu.Items.AddObject(nil, StringReplace(FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)].Caption, '&', '', [rfReplaceAll]), FTempMPointer);
+        TrataItem(FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)], TempNode);
       end
       else
       begin
         New(FTempMPointer);
-        SetLength(FListaMenu, Length(FListaMenu) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaMenu[ High(FListaMenu)] := FTempMPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempMPointer.Selecionado := 0;
-        FTempMPointer.MenuName := FActionMainMenuBar.ActionClient.Items
-          [StrToInt(Temp)].Action.Name;
-        TreeMenu.Items.AddObject(nil,
-          StringReplace(FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)
-          ].Action.Name, '&', '', [rfReplaceAll]), FTempMPointer);
+        SetLength(FListaMenu, Length(FListaMenu) + 1);  //Adicionado por Luiz 18/01/06
+        FListaMenu[High(FListaMenu)] := FTempMPointer;  //Adicionado por Luiz 18/01/06
+        FTempMPointer.Selecionado    := 0;
+        FTempMPointer.MenuName       := FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)].Action.Name;
+        TreeMenu.Items.AddObject(nil, StringReplace(FActionMainMenuBar.ActionClient.Items[StrToInt(Temp)].Action.Name, '&', '', [rfReplaceAll]), FTempMPointer);
       end;
       TreeMenu.FullExpand;
       TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
     end;
   end;
-  { .$ENDIF }
-  {$ENDIF}
+  {.$ENDIF}
 
-  (* if (Assigned(fUserControl.ControlRight.ActionList))
-    {.$IFDEF UCACTMANAGER} or (Assigned(fUserControl.ControlRight.ActionManager))
-    {.$ENDIF} then *)
-
+(*if (Assigned(fUserControl.ControlRight.ActionList))
+      {.$IFDEF UCACTMANAGER} or (Assigned(fUserControl.ControlRight.ActionManager))
+    {.$ENDIF} then*)
+    
   TempNode := nil;
   if Assigned(FActions) then
   begin
@@ -378,54 +319,40 @@ begin
       FreeAndNil(FTempLista);
     FTempLista := TStringList.Create;
     for Contador := 0 to TActionList(FActions).ActionCount - 1 do
-      FTempLista.Append(TActionList(FActions).Actions[Contador].Category + #1 +
-        TActionList(FActions).Actions[Contador].Name + #2 +
-        TAction(TActionList(FActions).Actions[Contador]).Caption);
+      FTempLista.Append(TActionList(FActions).Actions[contador].Category + #1 + TActionList(FActions).Actions[contador].Name + #2 + TAction(TActionList(FActions).Actions[contador]).Caption);
     FTempLista.Sort;
     Temp := #1;
     for Contador := 0 to FTempLista.Count - 1 do
     begin
-      if Temp <> Copy(FTempLista[Contador], 1,
-        Pos(#1, FTempLista[Contador]) - 1) then
+      if Temp <> Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1) then
       begin
         New(FTempAPointer);
-        SetLength(FListaAction, Length(FListaAction) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaAction[ High(FListaAction)] := FTempAPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempAPointer.Grupo := True;
-        FTempAPointer.Selecionado := 0;
-        FTempAPointer.MenuName := 'Grupo';
-        TempNode := TreeAction.Items.AddObject(nil,
-          StringReplace(Copy(FTempLista[Contador], 1,
-          Pos(#1, FTempLista[Contador]) - 1), '&', '', [rfReplaceAll]),
-          FTempAPointer);
-        TempNode.ImageIndex := 2;
-        TempNode.SelectedIndex := 2;
-        Temp := Copy(FTempLista[Contador], 1,
-          Pos(#1, FTempLista[Contador]) - 1);
+        SetLength(FListaAction, Length(FListaAction) + 1);  //Adicionado por Luiz 18/01/06
+        FListaAction[High(FListaAction)] := FTempAPointer;  //Adicionado por Luiz 18/01/06
+        FTempAPointer.Grupo              := True;
+        FTempAPointer.Selecionado        := 0;
+        FTempAPointer.MenuName           := 'Grupo';
+        TempNode                         := TreeAction.Items.AddObject(nil, StringReplace(Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1), '&', '', [rfReplaceAll]), FTempAPointer);
+        TempNode.ImageIndex              := 2;
+        TempNode.SelectedIndex           := 2;
+        Temp                             := Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1);
       end;
       Temp2 := FTempLista[Contador];
-      Delete(Temp2, 1, Pos(#1, Temp2));
+      Delete(Temp2, 1, pos(#1, Temp2));
       New(FTempAPointer);
-      SetLength(FListaAction, Length(FListaAction) + 1);
-      // Adicionado por Luiz 18/01/06
-      FListaAction[ High(FListaAction)] := FTempAPointer;
-      // Adicionado por Luiz 18/01/06
-      FTempAPointer.Grupo := False;
-      FTempAPointer.Selecionado := 0;
-      FTempAPointer.MenuName := Copy(Temp2, 1, Pos(#2, Temp2) - 1);
-      Delete(Temp2, 1, Pos(#2, Temp2));
-      TreeAction.Items.AddChildObject(TempNode, StringReplace(Temp2, '&', '',
-        [rfReplaceAll]), FTempAPointer);
+      SetLength(FListaAction, Length(FListaAction) + 1);  //Adicionado por Luiz 18/01/06
+      FListaAction[High(FListaAction)] := FTempAPointer;  //Adicionado por Luiz 18/01/06
+      FTempAPointer.Grupo              := False;
+      FTempAPointer.Selecionado        := 0;
+      FTempAPointer.MenuName           := Copy(Temp2, 1, Pos(#2, Temp2) - 1);
+      Delete(Temp2, 1, pos(#2, Temp2));
+      TreeAction.Items.AddChildObject(TempNode, StringReplace(Temp2, '&', '', [rfReplaceAll]), FTempAPointer);
     end;
     TreeAction.FullExpand;
-    {$IFNDEF FPC}
-    TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
-    {$ENDIF}
+    TreeAction.Perform(WM_VSCROLL, SB_TOP, 0);
   end;
 
-  // ExtraRights
+  //ExtraRights
   TempNode := nil;
   if Self.FExtraRights.Count > 0 then
   begin
@@ -434,119 +361,107 @@ begin
       FreeAndNil(FTempLista);
     FTempLista := TStringList.Create;
     for Contador := 0 to Pred(FExtraRights.Count) do
-      FTempLista.Append(FExtraRights[Contador].GroupName + #1 + FExtraRights
-        [Contador].Caption + #2 + FExtraRights[Contador].FormName + #3 +
-        FExtraRights[Contador].CompName);
+      FTempLista.Append(FExtraRights[Contador].GroupName + #1 + FExtraRights[Contador].Caption + #2 + FExtraRights[Contador].FormName + #3 + FExtraRights[Contador].CompName);
     FTempLista.Sort;
     Temp := #1;
     for Contador := 0 to Pred(FTempLista.Count) do
     begin
-      if Temp <> Copy(FTempLista[Contador], 1,
-        Pos(#1, FTempLista[Contador]) - 1) then
+      if Temp <> Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1) then
       begin
         New(FTempCPointer);
-        SetLength(FListaControl, Length(FListaControl) + 1);
-        // Adicionado por Luiz 18/01/06
-        FListaControl[ High(FListaControl)] := FTempCPointer;
-        // Adicionado por Luiz 18/01/06
-        FTempCPointer.Grupo := True;
-        FTempCPointer.Selecionado := 0;
-        FTempCPointer.FormName := 'Grupo';
-        FTempCPointer.CompName := 'Grupo';
-        TempNode := TreeControls.Items.AddObject(nil,
-          Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1),
-          FTempCPointer);
-        TempNode.ImageIndex := 2;
-        TempNode.SelectedIndex := 2;
-        Temp := Copy(FTempLista[Contador], 1,
-          Pos(#1, FTempLista[Contador]) - 1);
+        SetLength(FListaControl, Length(FListaControl) + 1);  //Adicionado por Luiz 18/01/06
+        FListaControl[High(FListaControl)] := FTempCPointer;  //Adicionado por Luiz 18/01/06
+        FTempCPointer.Grupo                := True;
+        FTempCPointer.Selecionado          := 0;
+        FTempCPointer.FormName             := 'Grupo';
+        FTempCPointer.CompName             := 'Grupo';
+        TempNode                           := TreeControls.Items.AddObject(nil, Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1), FTempCPointer);
+        TempNode.ImageIndex                := 2;
+        TempNode.SelectedIndex             := 2;
+        Temp                               := Copy(FTempLista[Contador], 1, Pos(#1, FTempLista[Contador]) - 1);
       end;
       Temp2 := FTempLista[Contador];
-      Delete(Temp2, 1, Pos(#1, Temp2));
+      Delete(Temp2, 1, pos(#1, Temp2));
       New(FTempCPointer);
-      SetLength(FListaControl, Length(FListaControl) + 1);
-      // Adicionado por Luiz 18/01/06
-      FListaControl[ High(FListaControl)] := FTempCPointer;
-      // Adicionado por Luiz 18/01/06
-      FTempCPointer.Grupo := False;
-      FTempCPointer.Selecionado := 0;
-      Desc := Copy(Temp2, 1, Pos(#2, Temp2) - 1); // descricao do objeto
-      Delete(Temp2, 1, Pos(#2, Temp2));
+      SetLength(FListaControl, Length(FListaControl) + 1);  //Adicionado por Luiz 18/01/06
+      FListaControl[High(FListaControl)] := FTempCPointer;  //Adicionado por Luiz 18/01/06
+      FTempCPointer.Grupo                := False;
+      FTempCPointer.Selecionado          := 0;
+      Desc                               := Copy(Temp2, 1, Pos(#2, Temp2) - 1); // descricao do objeto
+      Delete(Temp2, 1, pos(#2, Temp2));
 
       FTempCPointer.FormName := Copy(Temp2, 1, Pos(#3, Temp2) - 1);
-      Delete(Temp2, 1, Pos(#3, Temp2));
+      Delete(Temp2, 1, pos(#3, Temp2));
       FTempCPointer.CompName := Temp2;
       TreeControls.Items.AddChildObject(TempNode, Desc, FTempCPointer);
       FTempCPointer := nil;
     end;
     TreeControls.FullExpand;
-    {$IFNDEF FPC}
-    TreeMenu.Perform(WM_VSCROLL, SB_TOP, 0);
-    {$ENDIF}
+    TreeControls.Perform(WM_VSCROLL, SB_TOP, 0);
   end;
 
   PageMenu.TabVisible := Assigned(FMenu);
 
   PageAction.TabVisible := Assigned(FActions);
 
-  PageControls.TabVisible := (Assigned(FExtraRights) and
-    (FExtraRights.Count > 0));
+  PageControls.TabVisible := (Assigned(FExtraRights) and (FExtraRights.Count > 0));
 end;
 
-procedure TUserPermis.UnCheckChild(Node: TTreeNode);
+procedure TUserPermis.UnCheckChild(node: TTreeNode);
 var
   child: TTreeNode;
 begin
-  PTreeMenu(Node.Data).Selecionado := 0;
-  Node.ImageIndex := 0;
-  Node.SelectedIndex := 0;
-  child := Node.GetFirstChild;
+  PTreemenu(node.Data).Selecionado := 0;
+  node.ImageIndex                  := 0;
+  node.SelectedIndex               := 0;
+  child                            := node.GetFirstChild;
   repeat
     if child.HasChildren then
       UnCheckChild(child)
     else
     begin
-      PTreeMenu(child.Data).Selecionado := 0;
-      child.ImageIndex := 0;
-      child.SelectedIndex := 0;
+      PTreemenu(child.Data).Selecionado := 0;
+      child.ImageIndex                  := 0;
+      child.SelectedIndex               := 0;
     end;
-    child := Node.GetNextChild(child);
+    child := node.GetNextChild(child);
   until child = nil;
 end;
 
-procedure TUserPermis.TreeMenuItem(marca: Boolean);
+procedure TUserPermis.TreeMenuItem( Marca: Boolean );
 var
   AbsIdx: Integer;
 begin
-  if marca then
-    if PTreeMenu(TreeMenu.Selected.Data).Selecionado < 2 then
+  if Marca then
+    if PTreemenu(TreeMenu.Selected.Data).Selecionado < 2 then
     begin
-      if PTreeMenu(TreeMenu.Selected.Data).Selecionado = 0 then // marcar
+      if PTreemenu(TreeMenu.Selected.Data).Selecionado = 0 then //marcar
       begin
         AbsIdx := TreeMenu.Selected.AbsoluteIndex;
         while AbsIdx > -1 do
         begin
-          PTreeMenu(TreeMenu.Items.Item[AbsIdx].Data).Selecionado := 1;
-          TreeMenu.Items.Item[AbsIdx].ImageIndex := 1;
-          TreeMenu.Items.Item[AbsIdx].SelectedIndex := 1;
+          PTreemenu(TreeMenu.Items.Item[AbsIdx].Data).Selecionado := 1;
+          TreeMenu.Items.Item[AbsIdx].ImageIndex                  := 1;
+          TreeMenu.Items.Item[AbsIdx].SelectedIndex               := 1;
           if TreeMenu.Items.Item[AbsIdx].Parent <> nil then
           begin
             AbsIdx := TreeMenu.Items.Item[AbsIdx].Parent.AbsoluteIndex;
-            if PTreeMenu(TreeMenu.Items.Item[AbsIdx].Data).Selecionado = 2 then
+            if PTreemenu(TreeMenu.Items.Item[AbsIdx].Data).Selecionado = 2 then
               AbsIdx := -1;
           end
           else
             AbsIdx := -1;
         end;
       end
-      else if TreeMenu.Selected.HasChildren then
-        UnCheckChild(TreeMenu.Selected)
       else
-      begin
-        PTreeMenu(TreeMenu.Selected.Data).Selecionado := 0;
-        TreeMenu.Selected.ImageIndex := 0;
-        TreeMenu.Selected.SelectedIndex := 0;
-      end; // desmarcar
+        if TreeMenu.Selected.HasChildren then
+          UnCheckChild(TreeMenu.Selected)
+        else
+        begin
+          PTreemenu(TreeMenu.Selected.Data).Selecionado := 0;
+          TreeMenu.Selected.ImageIndex                  := 0;
+          TreeMenu.Selected.SelectedIndex               := 0;
+        end; //desmarcar
       TreeMenu.Repaint;
     end;
 end;
@@ -558,18 +473,16 @@ begin
 
   if PTreeAction(TreeAction.Selected.Data).Grupo then
     Exit;
-
-  if marca then
+    
+  if Marca then
   begin
     if PTreeAction(TreeAction.Selected.Data).Selecionado < 2 then
       if PTreeAction(TreeAction.Selected.Data).Selecionado = 0 then
         PTreeAction(TreeAction.Selected.Data).Selecionado := 1
       else
         PTreeAction(TreeAction.Selected.Data).Selecionado := 0;
-    TreeAction.Selected.ImageIndex := PTreeAction(TreeAction.Selected.Data)
-      .Selecionado;
-    TreeAction.Selected.SelectedIndex := PTreeAction(TreeAction.Selected.Data)
-      .Selecionado;
+    TreeAction.Selected.ImageIndex := PTreeAction(TreeAction.Selected.Data).Selecionado;
+    TreeAction.Selected.SelectedIndex := PTreeAction(TreeAction.Selected.Data).Selecionado;
   end;
   TreeAction.Repaint;
 end;
@@ -578,17 +491,15 @@ procedure TUserPermis.TreeControlItem(marca: Boolean);
 begin
   if PTreeControl(TreeControls.Selected.Data).Grupo then
     Exit;
-  if marca then
+  if Marca then
   begin
     if PTreeControl(TreeControls.Selected.Data).Selecionado < 2 then
       if PTreeControl(TreeControls.Selected.Data).Selecionado = 0 then
         PTreeControl(TreeControls.Selected.Data).Selecionado := 1
       else
         PTreeControl(TreeControls.Selected.Data).Selecionado := 0;
-    TreeControls.Selected.ImageIndex := PTreeControl(TreeControls.Selected.Data)
-      .Selecionado;
-    TreeControls.Selected.SelectedIndex :=
-      PTreeAction(TreeControls.Selected.Data).Selecionado;
+    TreeControls.Selected.ImageIndex := PTreeControl(TreeControls.Selected.Data).Selecionado;
+    TreeControls.Selected.SelectedIndex := PTreeAction(TreeControls.Selected.Data).Selecionado;
   end;
   TreeControls.Repaint;
 end;
@@ -596,7 +507,7 @@ end;
 procedure TUserPermis.TreeMenuClick(Sender: TObject);
 begin
   if not FChangingTree then
-    TreeMenuItem(True);
+    TreeMenuItem( True );
 end;
 
 procedure TUserPermis.BtCancelClick(Sender: TObject);
@@ -609,10 +520,10 @@ begin
   Atualiza(True);
 end;
 
-procedure TUserPermis.Atualiza(Selec: Boolean);
+procedure TUserPermis.Atualiza( Selec : Boolean );
 var
   Contador: Integer;
-  Temp: Integer;
+  Temp:     Integer;
 begin
   if Selec then
     Temp := 1
@@ -625,38 +536,38 @@ begin
       if PTreeMenu(TreeMenu.Items[Contador].Data).Selecionado < 2 then
       begin
         PTreeMenu(TreeMenu.Items[Contador].Data).Selecionado := Temp;
-        TreeMenu.Items[Contador].ImageIndex := Temp;
-        TreeMenu.Items[Contador].SelectedIndex := Temp;
+        TreeMenu.Items[Contador].ImageIndex                  := Temp;
+        TreeMenu.Items[Contador].SelectedIndex               := Temp;
       end;
     TreeMenu.Repaint;
   end
 
   else if PC.ActivePage = PageAction then
-  begin
-    for Contador := 0 to TreeAction.Items.Count - 1 do
-      if not PTreeAction(TreeAction.Items[Contador].Data).Grupo then
-        if PTreeAction(TreeAction.Items[Contador].Data).Selecionado < 2 then
-        begin
-          PTreeAction(TreeAction.Items[Contador].Data).Selecionado := Temp;
-          TreeAction.Items[Contador].ImageIndex := Temp;
-          TreeAction.Items[Contador].SelectedIndex := Temp;
-        end;
-    TreeAction.Repaint;
-  end
+    begin
+      for Contador := 0 to TreeAction.Items.Count - 1 do
+        if not PTreeAction(TreeAction.Items[Contador].Data).Grupo then
+          if PTreeAction(TreeAction.Items[Contador].Data).Selecionado < 2 then
+          begin
+            PTreeAction(TreeAction.Items[Contador].Data).Selecionado := Temp;
+            TreeAction.Items[Contador].ImageIndex                    := Temp;
+            TreeAction.Items[Contador].SelectedIndex                 := Temp;
+          end;
+      TreeAction.Repaint;
+    end
 
-  else
-  begin // tabContols
-    for Contador := 0 to TreeControls.Items.Count - 1 do
-      if not PTreeControl(TreeControls.Items[Contador].Data).Grupo then
-        if PTreeControl(TreeControls.Items[Contador].Data).Selecionado < 2 then
-        begin
-          PTreeControl(TreeControls.Items[Contador].Data).Selecionado := Temp;
-          TreeControls.Items[Contador].ImageIndex := Temp;
-          TreeControls.Items[Contador].SelectedIndex := Temp;
-        end;
-    TreeControls.Repaint;
-  end;
+  else begin // tabContols
+      for Contador := 0 to TreeControls.Items.Count - 1 do
+        if not PTreeControl(TreeControls.Items[Contador].Data).Grupo then
+          if PTreeControl(TreeControls.Items[Contador].Data).Selecionado < 2 then
+          begin
+            PTreeControl(TreeControls.Items[Contador].Data).Selecionado := Temp;
+            TreeControls.Items[Contador].ImageIndex                     := Temp;
+            TreeControls.Items[Contador].SelectedIndex                  := Temp;
+          end;
+      TreeControls.Repaint;
+    end;
 end;
+
 
 procedure TUserPermis.BtBloqueiaClick(Sender: TObject);
 begin
@@ -666,22 +577,21 @@ end;
 procedure TUserPermis.FormShow(Sender: TObject);
 var
   Contador: Integer;
-  Selec: Integer;
+  Selec:    Integer;
 begin
   // Adcionado por Luiz
   SetLength(FListaAction, 0);
   SetLength(FListaMenu, 0);
   SetLength(FListaControl, 0);
 
-  // carrega itens do menu, actions e controles
+  //carrega itens do menu, actions e controles
   CarregaTreeviews;
 
   // Exibe Permissoes do Usuario
   for Contador := 0 to TreeAction.Items.Count - 1 do
   begin
     DSPermiss.First;
-    if DSPermiss.Locate('ObjName', PTreeAction(TreeAction.Items[Contador].Data)
-      .MenuName, []) then
+    if DSPermiss.Locate('ObjName', PTreeAction(TreeAction.Items[Contador].Data).MenuName, []) then
       Selec := 1
     else
       Selec := 0;
@@ -689,7 +599,7 @@ begin
     PTreeAction(TreeAction.Items[Contador].Data).Selecionado := Selec;
     if not PTreeAction(TreeAction.Items[Contador].Data).Grupo then
     begin
-      TreeAction.Items[Contador].ImageIndex := Selec;
+      TreeAction.Items[Contador].ImageIndex    := Selec;
       TreeAction.Items[Contador].SelectedIndex := Selec;
     end;
   end;
@@ -697,24 +607,21 @@ begin
   for Contador := 0 to TreeMenu.Items.Count - 1 do
   begin
     DSPermiss.First;
-    if DSPermiss.Locate('ObjName', PTreeMenu(TreeMenu.Items[Contador].Data)
-      .MenuName, []) then
+    if DSPermiss.Locate('ObjName', PTreeMenu(TreeMenu.Items[Contador].Data).MenuName, []) then
       Selec := 1
     else
       Selec := 0;
 
     PTreeMenu(TreeMenu.Items[Contador].Data).Selecionado := Selec;
-    TreeMenu.Items[Contador].ImageIndex := Selec;
-    TreeMenu.Items[Contador].SelectedIndex := Selec;
+    TreeMenu.Items[Contador].ImageIndex                  := Selec;
+    TreeMenu.Items[Contador].SelectedIndex               := Selec;
   end;
 
-  // Extra Rights
+  //Extra Rights
   for Contador := 0 to Pred(TreeControls.Items.Count) do
   begin
     DSPermissEX.First;
-    if DSPermissEX.Locate('FormName;ObjName',
-      VarArrayOf([PTreeControl(TreeControls.Items[Contador].Data).FormName,
-      PTreeControl(TreeControls.Items[Contador].Data).CompName]), []) then
+    if DSPermissEX.Locate('FormName;ObjName', VarArrayOf([PTreeControl(TreeControls.Items[Contador].Data).FormName, PTreeControl(TreeControls.Items[Contador].Data).CompName]), []) then
       Selec := 1
     else
       Selec := 0;
@@ -722,7 +629,7 @@ begin
     PTreeControl(TreeControls.Items[Contador].Data).Selecionado := Selec;
     if not PTreeControl(TreeControls.Items[Contador].Data).Grupo then
     begin
-      TreeControls.Items[Contador].ImageIndex := Selec;
+      TreeControls.Items[Contador].ImageIndex    := Selec;
       TreeControls.Items[Contador].SelectedIndex := Selec;
     end;
   end;
@@ -733,14 +640,13 @@ begin
     for Contador := 0 to TreeAction.Items.Count - 1 do
     begin
       DSPerfil.First;
-      if DSPerfil.Locate('ObjName', PTreeAction(TreeAction.Items[Contador].Data)
-        .MenuName, []) then
+      if DSPerfil.Locate('ObjName', PTreeAction(TreeAction.Items[Contador].Data).MenuName, []) then
       begin
-        Selec := 2;
+        Selec                                                    := 2;
         PTreeAction(TreeAction.Items[Contador].Data).Selecionado := Selec;
         if not PTreeAction(TreeAction.Items[Contador].Data).Grupo then
         begin
-          TreeAction.Items[Contador].ImageIndex := Selec;
+          TreeAction.Items[Contador].ImageIndex    := Selec;
           TreeAction.Items[Contador].SelectedIndex := Selec;
         end;
       end;
@@ -749,29 +655,26 @@ begin
     for Contador := 0 to TreeMenu.Items.Count - 1 do
     begin
       DSPerfil.First;
-      if DSPerfil.Locate('ObjName', PTreeMenu(TreeMenu.Items[Contador].Data)
-        .MenuName, []) then
+      if DSPerfil.Locate('ObjName', PTreeMenu(TreeMenu.Items[Contador].Data).MenuName, []) then
       begin
-        Selec := 2;
+        Selec                                                := 2;
         PTreeMenu(TreeMenu.Items[Contador].Data).Selecionado := Selec;
-        TreeMenu.Items[Contador].ImageIndex := Selec;
-        TreeMenu.Items[Contador].SelectedIndex := Selec;
+        TreeMenu.Items[Contador].ImageIndex                  := Selec;
+        TreeMenu.Items[Contador].SelectedIndex               := Selec;
       end;
     end;
 
-    // Extra Rights
+    //Extra Rights
     for Contador := 0 to Pred(TreeControls.Items.Count) do
     begin
       DSPerfilEX.First;
-      if DSPerfilEX.Locate('FormName;ObjName',
-        VarArrayOf([PTreeControl(TreeControls.Items[Contador].Data).FormName,
-        PTreeControl(TreeControls.Items[Contador].Data).CompName]), []) then
+      if DSPerfilEX.Locate('FormName;ObjName', VarArrayOf([PTreeControl(TreeControls.Items[Contador].Data).FormName, PTreeControl(TreeControls.Items[Contador].Data).CompName]), []) then
       begin
-        Selec := 2;
+        Selec                                                       := 2;
         PTreeControl(TreeControls.Items[Contador].Data).Selecionado := Selec;
         if not PTreeControl(TreeControls.Items[Contador].Data).Grupo then
         begin
-          TreeControls.Items[Contador].ImageIndex := Selec;
+          TreeControls.Items[Contador].ImageIndex    := Selec;
           TreeControls.Items[Contador].SelectedIndex := Selec;
         end;
       end;
@@ -795,8 +698,7 @@ begin
     TreeControlItem(True);
 end;
 
-procedure TUserPermis.TreeMenuCollapsing(Sender: TObject; Node: TTreeNode;
-  var AllowCollapse: Boolean);
+procedure TUserPermis.TreeMenuCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
 begin
   if (Self.Showing) and (TTreeView(Sender).Focused) then
     FChangingTree := True;
@@ -811,8 +713,7 @@ begin
   end;
 end;
 
-procedure TUserPermis.TreeMenuMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TUserPermis.TreeMenuMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   FChangingTree := False;
 end;
@@ -847,4 +748,5 @@ begin
     Dispose(FListaControl[Contador]);
 end;
 
-end.
+end.
+
