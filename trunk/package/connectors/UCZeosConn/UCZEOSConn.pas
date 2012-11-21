@@ -11,7 +11,7 @@ unit UCZEOSConn;
 
 interface
 
-{$I 'UserControl.inc'}
+{$I '..\..\..\Source\UserControl.inc'}
 
 uses
   Classes,

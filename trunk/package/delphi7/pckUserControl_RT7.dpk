@@ -1,0 +1,65 @@
+package pckUserControl_RT7;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'User Control Package 2'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  designide,
+  inet,
+  dbrtl,
+  vcldb,
+  VclSmp,
+  pckUCDataConnector,
+  vcl,
+  rtl,
+  vclx;
+
+contains
+  TrocaSenha_U in '..\..\source\TrocaSenha_U.pas',
+  UCBase in '..\..\source\UCBase.pas',
+  SenhaForm_U in '..\..\source\SenhaForm_U.pas',
+  EnvMsgForm_U in '..\..\source\EnvMsgForm_U.pas',
+  MsgRecForm_U in '..\..\source\MsgRecForm_U.pas',
+  MsgsForm_U in '..\..\source\MsgsForm_U.pas',
+  UCDataInfo in '..\..\source\UCDataInfo.pas',
+  UCMessages in '..\..\source\UCMessages.pas',
+  UserPermis_U in '..\..\source\UserPermis_U.pas',
+  UCSettings in '..\..\source\UCSettings.pas',
+  LoginWindow_U in '..\..\source\LoginWindow_U.pas',
+  UcConsts_Language in '..\..\source\UcConsts_Language.pas',
+  pUCGeral in '..\..\source\pUCGeral.pas',
+  pUCFrame_User in '..\..\source\pUCFrame_User.pas',
+  pUCFrame_Profile in '..\..\source\pUCFrame_Profile.pas',
+  pUCFrame_Log in '..\..\source\pUCFrame_Log.pas' {UCFrame_Log},
+  pUcFrame_UserLogged in '..\..\source\pUcFrame_UserLogged.pas' {UCFrame_UsersLogged},
+  UCMail in '..\..\source\UCMail.pas',
+  UCEMailForm_U in '..\..\source\UCEMailForm_U.pas',
+  UCALSMTPClient in '..\..\source\UCALSMTPClient.pas',
+  IncUser_U in '..\..\source\IncUser_U.pas',
+  IncPerfil_U in '..\..\source\IncPerfil_U.pas',
+  md5 in '..\..\source\md5.pas';
+
+end.

@@ -1,17 +1,13 @@
 unit LoginWindow_U;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-  {$IFDEF DELPHI5_UP}
+{$IFDEF DELPHI5_UP}
   Variants,
-  {$ENDIF}
+{$ENDIF}
   Buttons,
   Classes,
   Controls,
@@ -24,20 +20,17 @@ uses
   StdCtrls,
   SysUtils,
   UCBase,
-  ComCtrls
-  {$IFNDEF FPC},
-  Windows
-  {$ENDIF};
+  Windows, ComCtrls;
 
 type
   TfrmLoginWindow = class(TForm)
-    PTop: TPanel;
-    ImgTop: TImage;
-    PLeft: TPanel;
-    imgLeft: TImage;
-    PBottom: TPanel;
-    ImgBottom: TImage;
-    Panel1: TPanel;
+    PTop:        TPanel;
+    ImgTop:      TImage;
+    PLeft:       TPanel;
+    imgLeft:     TImage;
+    PBottom:     TPanel;
+    ImgBottom:   TImage;
+    Panel1:      TPanel;
     StatusBar: TStatusBar;
     PLogin: TPanel;
     LbUsuario: TLabel;
@@ -80,40 +73,39 @@ procedure TfrmLoginWindow.FormShow(Sender: TObject);
 var
   w, h: Integer;
 begin
-  w := Max(ImgTop.Width, imgLeft.Width + PLogin.Width);
+  w := Max(ImgTop.Width, ImgLeft.Width + PLogin.Width);
   w := Max(w, ImgBottom.Width);
-  h := Max(imgLeft.Height + ImgTop.Height + ImgBottom.Height,
-    ImgTop.Height + PLogin.Height + ImgBottom.Height);
+  h := Max(ImgLeft.Height + ImgTop.Height + ImgBottom.Height, ImgTop.Height + PLogin.Height + ImgBottom.Height);
 
-  Width := w;
+  Width  := w;
   Height := h + 28;
   If FUserControl.Login.MaxLoginAttempts > 0 then
-  Begin
-    Height := Height + 19;
-    StatusBar.Panels[0].Text := FUserControl.UserSettings.Login.LabelTentativa;
-    StatusBar.Panels[2].Text := FUserControl.UserSettings.Login.LabelTentativas;
-  End;
+    Begin
+      Height := Height + 19;
+      StatusBar.Panels[ 0 ].Text := FUserControl.UserSettings.Login.LabelTentativa;
+      StatusBar.Panels[ 2 ].Text := FUserControl.UserSettings.Login.LabelTentativas;      
+    End;
 
   // Topo
-  PTop.Height := ImgTop.Height;
+  PTop.Height     := ImgTop.Height;
   ImgTop.AutoSize := False;
-  ImgTop.Align := alClient;
-  ImgTop.Center := True;
+  ImgTop.Align    := alClient;
+  ImgTop.Center   := True;
 
-  // Centro
-  PLeft.Width := imgLeft.Width;
-  imgLeft.AutoSize := False;
-  imgLeft.Align := alClient;
-  imgLeft.Center := True;
+  //Centro
+  PLeft.Width      := ImgLeft.Width;
+  ImgLeft.AutoSize := False;
+  ImgLeft.Align    := alClient;
+  ImgLeft.Center   := True;
 
-  // Bottom
-  PBottom.Height := ImgBottom.Height;
+  //Bottom
+  PBottom.Height     := ImgBottom.Height;
   ImgBottom.AutoSize := False;
-  ImgBottom.Align := alClient;
-  ImgBottom.Center := True;
+  ImgBottom.Align    := alClient;
+  ImgBottom.Center   := True;
 
-  PTop.Visible := ImgTop.Picture <> nil;
-  PLeft.Visible := imgLeft.Picture <> nil;
+  PTop.Visible    := ImgTop.Picture <> nil;
+  PLeft.Visible   := ImgLeft.Picture <> nil;
   PBottom.Visible := ImgBottom.Picture <> nil;
 
   if FUserControl.Login.GetLoginName = lnUserName then
@@ -121,9 +113,9 @@ begin
   if FUserControl.Login.GetLoginName = lnMachineName then
     EditUsuario.Text := FUserControl.GetLocalComputerName;
 
-  Position := Self.FUserControl.UserSettings.WindowsPosition;
+  Position             := Self.FUserControl.UserSettings.WindowsPosition;
   EditUsuario.CharCase := Self.FUserControl.Login.CharCaseUser;
-  EditSenha.CharCase := Self.FUserControl.Login.CharCasePass;
+  EditSenha.CharCase   := Self.FUserControl.Login.CharCasePass;
   EditUsuario.SetFocus;
 end;
 
@@ -134,13 +126,12 @@ end;
 
 procedure TfrmLoginWindow.FormKeyPress(Sender: TObject; var Key: char);
 begin
-  {$IFNDEF FPC}
   if Key = #13 then
-  Begin
-    Key := #0;
-    Perform(WM_NEXTDLGCTL, 0, 0);
-  End;
-  {$ENDIF}
+    Begin
+      Key := #0;
+      Perform(WM_NEXTDLGCTL,0,0);
+    End;
 end;
 
-end.
+end.
+

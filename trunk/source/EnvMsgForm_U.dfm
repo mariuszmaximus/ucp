@@ -234,7 +234,8 @@ object EnvMsgForm: TEnvMsgForm
     Width = 79
     Height = 25
     Caption = '&Enviar'
-    DoubleBuffered = True
+    TabOrder = 3
+    OnClick = btEnviaClick
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       18000000000000030000120B0000120B00000000000000000000FF00FFA47874
@@ -262,9 +263,6 @@ object EnvMsgForm: TEnvMsgForm
       FF00FFFF00FFFF00FFFF00FFA47874A47874A47874A47874FF00FFFF00FFFF00
       FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
       00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-    ParentDoubleBuffered = False
-    TabOrder = 3
-    OnClick = btEnviaClick
   end
   object btCancela: TBitBtn
     Left = 188
@@ -273,7 +271,8 @@ object EnvMsgForm: TEnvMsgForm
     Height = 25
     Cancel = True
     Caption = 'Cancelar'
-    DoubleBuffered = True
+    TabOrder = 4
+    OnClick = btCancelaClick
     Glyph.Data = {
       66030000424D6603000000000000660200002800000010000000100000000100
       08000000000000010000120B0000120B00008C0000008C00000000000000FFFF
@@ -303,9 +302,6 @@ object EnvMsgForm: TEnvMsgForm
       14212E44757D69577902024D0D08011218241F3253016140790202024D0A0C01
       0E1C2A390156787902020202024D4D1A1B2735334C797902020202020202024D
       4D4D4D4D4D0202020202}
-    ParentDoubleBuffered = False
-    TabOrder = 4
-    OnClick = btCancelaClick
   end
   object DataSource1: TDataSource
     Left = 144

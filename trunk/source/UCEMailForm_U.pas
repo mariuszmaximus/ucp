@@ -1,9 +1,5 @@
 unit UCEMailForm_U;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 {$I 'UserControl.inc'}
@@ -18,8 +14,8 @@ uses
 
 type
   TUCEMailForm = class(TForm)
-    Panel1: TPanel;
-    img: TImage;
+    Panel1:   TPanel;
+    img:      TImage;
     lbStatus: TLabel;
   private
     { Private declarations }
@@ -35,3 +31,4 @@ implementation
 {$R *.dfm}
 
 end.
+

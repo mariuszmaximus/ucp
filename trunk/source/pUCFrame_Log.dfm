@@ -91,8 +91,9 @@ object UCFrame_Log: TUCFrame_Log
       Height = 25
       Cursor = crHandPoint
       Caption = 'Aplicar filtro'
-      DoubleBuffered = True
       Enabled = False
+      TabOrder = 4
+      OnClick = btfiltroClick
       Glyph.Data = {
         36060000424D3606000000000000360000002800000020000000100000000100
         18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
@@ -145,9 +146,6 @@ object UCFrame_Log: TUCFrame_Log
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
         00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       NumGlyphs = 2
-      ParentDoubleBuffered = False
-      TabOrder = 4
-      OnClick = btfiltroClick
     end
     object btfecha: TBitBtn
       Left = 338
@@ -156,7 +154,7 @@ object UCFrame_Log: TUCFrame_Log
       Height = 25
       Cursor = crHandPoint
       Caption = 'Fechar'
-      DoubleBuffered = True
+      TabOrder = 5
       Glyph.Data = {
         B6020000424DB602000000000000B60100002800000010000000100000000100
         08000000000000010000120B0000120B0000600000006000000000000000FFFF
@@ -180,8 +178,6 @@ object UCFrame_Log: TUCFrame_Log
         254307474D4B4D3F4502020245302A2B292D07474D4B4D3F4502020245352E2C
         2E3207474D4B4D3F450202024545332F343107464A494A3F450202020202453C
         3744074545454545450202020202020245450702020202020202}
-      ParentDoubleBuffered = False
-      TabOrder = 5
     end
     object btexclui: TBitBtn
       Left = 231
@@ -190,7 +186,8 @@ object UCFrame_Log: TUCFrame_Log
       Height = 25
       Cursor = crHandPoint
       Caption = 'Excluir Log'
-      DoubleBuffered = True
+      TabOrder = 6
+      OnClick = btexcluiClick
       Glyph.Data = {
         36050000424D3605000000000000360400002800000010000000100000000100
         08000000000000010000220B0000220B000000010000000100000031DE000031
@@ -234,9 +231,6 @@ object UCFrame_Log: TUCFrame_Log
         0404040405030404040404040303050404040404040303040404040303030404
         0404040404040403040403030304040404040404040404040404030304040404
         0404040404040404040404040404040404040404040404040404}
-      ParentDoubleBuffered = False
-      TabOrder = 6
-      OnClick = btexcluiClick
     end
     object ComboUsuario: TComboBox
       Left = 16
@@ -244,6 +238,7 @@ object UCFrame_Log: TUCFrame_Log
       Width = 145
       Height = 21
       Style = csDropDownList
+      ItemHeight = 0
       TabOrder = 0
       OnChange = ComboUsuarioChange
     end
@@ -291,7 +286,7 @@ object UCFrame_Log: TUCFrame_Log
     Left = 136
     Top = 153
     Bitmap = {
-      494C0101040006000C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000600040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

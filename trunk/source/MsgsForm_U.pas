@@ -1,17 +1,13 @@
 unit MsgsForm_U;
 
-{$IFDEF FPC}
-  {$MODE Delphi}
-{$ENDIF}
-
 interface
 
 {$I 'UserControl.inc'}
 
 uses
-  {$IFDEF DELPHI5_UP}
+{$IFDEF DELPHI5_UP}
   Variants,
-  {$ENDIF}
+{$ENDIF}
   Classes,
   ComCtrls,
   Controls,
@@ -25,39 +21,33 @@ uses
   StdCtrls,
   SysUtils,
   ToolWin,
-  {$IFNDEF FPC}
-  Windows
-  {$ELSE}
-  LCLType
-  {$ENDIF};
+  Windows;
 
 type
   TPointMsg = ^PPointMsg;
 
   PPointMsg = record
     IdMsg: Integer;
-    Msg: String;
+    Msg:   String;
   end;
 
   TMsgsForm = class(TForm)
-    ImageList1: TImageList;
-    ListView1: TListView;
-    ToolBar1: TToolBar;
-    btnova: TToolButton;
-    ImageList2: TImageList;
-    btResponder: TToolButton;
+    ImageList1:   TImageList;
+    ListView1:    TListView;
+    ToolBar1:     TToolBar;
+    btnova:       TToolButton;
+    ImageList2:   TImageList;
+    btResponder:  TToolButton;
     btEncaminhar: TToolButton;
-    btExcluir: TToolButton;
-    Splitter1: TSplitter;
-    btClose: TToolButton;
-    MemoMsg: TMemo;
+    btExcluir:    TToolButton;
+    Splitter1:    TSplitter;
+    btClose:      TToolButton;
+    MemoMsg:      TMemo;
     procedure btCloseClick(Sender: TObject);
     procedure btnovaClick(Sender: TObject);
-    procedure ListView1SelectItem(Sender: TObject; Item: TListItem;
-      Selected: Boolean);
+    procedure ListView1SelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure ListView1ColumnClick(Sender: TObject; Column: TListColumn);
-    procedure ListView1Compare(Sender: TObject; Item1, Item2: TListItem;
-      Data: Integer; var Compare: Integer);
+    procedure ListView1Compare(Sender: TObject; Item1, Item2: TListItem; Data: Integer; var Compare: Integer);
     procedure ListView1DblClick(Sender: TObject);
     procedure btExcluirClick(Sender: TObject);
     procedure btEncaminharClick(Sender: TObject);
@@ -66,12 +56,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    FColuna: Integer;
-    FAsc: Boolean;
+    FColuna:         Integer;
+    FAsc:            Boolean;
     FListaTPointMsg: array of TPointMsg;
     procedure MontaTela;
   public
-    DSMsgs: TDataset;
+    DSMsgs:     TDataset;
     DSUsuarios: TDataset;
   end;
 
@@ -94,7 +84,7 @@ end;
 
 procedure TMsgsForm.btnovaClick(Sender: TObject);
 begin
-  EnvMsgForm := TEnvMsgForm.Create(Self.Owner);
+  EnvMsgForm                     := TEnvMsgForm.Create(Self.Owner);
   EnvMsgForm.DataSource1.DataSet := DSUsuarios;
   EnvMsgForm.Showmodal;
   FreeAndNil(EnvMsgForm);
@@ -102,8 +92,7 @@ end;
 
 function FmtDtHr(dt: String): String;
 begin
-  Result := Copy(dt, 7, 2) + '/' + Copy(dt, 5, 2) + '/' + Copy(dt, 1, 4) + ' ' +
-    Copy(dt, 9, 2) + ':' + Copy(dt, 11, 2);
+  Result := Copy(dt, 7, 2) + '/' + Copy(dt, 5, 2) + '/' + Copy(dt, 1, 4) + ' ' + Copy(dt, 9, 2) + ':' + Copy(dt, 11, 2);
 end;
 
 procedure TMsgsForm.MontaTela;
@@ -117,15 +106,15 @@ begin
     begin
       ImageIndex := -1;
       StateIndex := -1;
-      Caption := DSMsgs.FieldByName('de').AsString;
+      Caption    := DSMsgs.FieldByName('de').AsString;
       SubItems.Add(DSMsgs.FieldByName('Subject').AsString);
       SubItems.Add(FmtDtHr(DSMsgs.FieldByName('DtSend').AsString));
       New(TempPoint);
       SetLength(FListaTPointMsg, Length(FListaTPointMsg) + 1);
-      FListaTPointMsg[ High(FListaTPointMsg)] := TempPoint;
-      TempPoint.IdMsg := DSMsgs.FieldByName('idMsg').AsInteger;
-      TempPoint.Msg := DSMsgs.FieldByName('Msg').AsString;
-      Data := TempPoint;
+      FListaTPointMsg[High(FListaTPointMsg)] := TempPoint;
+      TempPoint.IdMsg                        := DSMsgs.FieldByName('idMsg').AsInteger;
+      TempPoint.Msg                          := DSMsgs.FieldByName('Msg').AsString;
+      Data                                   := TempPoint;
     end;
     DSMsgs.Next;
 {$IFDEF DELPHI5}
@@ -133,21 +122,21 @@ begin
 {$ELSE}
     ListView1.ItemIndex := 0;
 {$ENDIF}
+
   end;
   DSMsgs.Close;
 end;
 
-procedure TMsgsForm.ListView1SelectItem(Sender: TObject; Item: TListItem;
-  Selected: Boolean);
+procedure TMsgsForm.ListView1SelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
 begin
   if ListView1.SelCount > 1 then
   begin
-    btResponder.Enabled := False;
+    btResponder.Enabled  := False;
     btEncaminhar.Enabled := False;
   end
   else
   begin
-    btResponder.Enabled := True;
+    btResponder.Enabled  := True;
     btEncaminhar.Enabled := True;
   end;
   MemoMsg.Text := TPointMsg(Item.Data).Msg;
@@ -157,23 +146,20 @@ procedure TMsgsForm.ListView1ColumnClick(Sender: TObject; Column: TListColumn);
 begin
   if FColuna = Column.Index then
   begin
-    FAsc := not FAsc;
-    ListView1.Columns[FColuna].ImageIndex := Integer(FAsc);
+    FAsc                                  := not FAsc;
+    ListView1.Columns[FColuna].ImageIndex := integer(FAsc);
   end
   else
   begin
     ListView1.Columns[FColuna].ImageIndex := -1;
-    FColuna := Column.Index;
-    FAsc := True;
-    ListView1.Columns[FColuna].ImageIndex := Integer(FAsc);
+    FColuna                               := Column.Index;
+    FAsc                                  := True;
+    ListView1.Columns[FColuna].ImageIndex := integer(FAsc);
   end;
-  {$IFNDEF FPC}
   (Sender as TCustomListView).AlphaSort;
-  {$ENDIF}
 end;
 
-procedure TMsgsForm.ListView1Compare(Sender: TObject; Item1, Item2: TListItem;
-  Data: Integer; var Compare: Integer);
+procedure TMsgsForm.ListView1Compare(Sender: TObject; Item1, Item2: TListItem; Data: Integer; var Compare: Integer);
 var
   ix: Integer;
 begin
@@ -197,15 +183,15 @@ end;
 procedure TMsgsForm.ListView1DblClick(Sender: TObject);
 begin
   if ListView1.Selected = nil then
-    exit; // added to prevent AV error {fduenas}
-  MsgRecForm := TMsgRecForm.Create(Self.Owner); // midifed by fduenas
+    exit;                                       //added to prevent AV error {fduenas}
+  MsgRecForm := TMsgRecForm.Create(Self.Owner); //midifed by fduenas
 
-  MsgRecForm.MemoMsg.Text := TPointMsg(ListView1.Selected.Data).Msg;
-  MsgRecForm.stDe.Caption := ListView1.Selected.Caption;
+  MsgRecForm.MemoMsg.Text      := TPointMsg(ListView1.Selected.Data).Msg;
+  MsgRecForm.stDe.Caption      := ListView1.Selected.Caption;
   MsgRecForm.stAssunto.Caption := ListView1.Selected.SubItems[0];
-  MsgRecForm.stData.Caption := ListView1.Selected.SubItems[1];
+  MsgRecForm.stData.Caption    := ListView1.Selected.SubItems[1];
 
-  MsgRecForm.Showmodal;
+  MsgRecForm.ShowModal;
   FreeAndNil(MsgRecForm);
 end;
 
@@ -216,53 +202,42 @@ begin
 {$IFDEF DELPHI5}
   if ListView1.Selected = nil then
   begin
-    {$IFNDEF FPC}
-    // Modfied by fduenas
-    MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
-      .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION + MB_OK);
-    {$ELSE}
-    Application.MessageBox(
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+    //Modfied by fduenas
+    MessageBox(Handle, PChar(TUCApplicationMessage(Owner).UserControl.Settings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.Settings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
       MB_ICONINFORMATION + MB_OK);
-    {$ENDIF}
-    exit;
+    Exit;
   end;
 {$ELSE}
-  end;
   if ListView1.ItemIndex = -1 then
   begin
-    // Modfied by fduenas
-    MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
-      .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
-    exit;
+    //Modfied by fduenas
+    MessageBox(Handle, PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION or mb_OK);
+    Exit;
   end;
 {$ENDIF}
+
   if ListView1.SelCount = 1 then
   begin
-    TUCApplicationMessage(Owner).DeleteAppMessage
-      (TPointMsg(ListView1.Selected.Data).IdMsg);
-{$IFDEF DELPHI5}
+    TUCApplicationMessage(Owner).DeleteAppMessage(TPointMsg(ListView1.Selected.Data).idMsg);
+   {$IFDEF DELPHI5}
     ListView1.Selected.Delete;
-{$ELSE}
+   {$ELSE}
     ListView1.DeleteSelected;
-{$ENDIF}
+   {$ENDIF}
   end
   else
   begin
-    for contador := 0 to ListView1.Items.Count - 1 do
-      if ListView1.Items[contador].Selected then
-        TUCApplicationMessage(Owner).DeleteAppMessage
-          (TPointMsg(ListView1.Items[contador].Data).IdMsg);
-{$IFDEF DELPHI5}
+    for contador := 0 to LIstView1.Items.Count - 1 do
+      if ListView1.items[contador].selected then
+        TUCApplicationMessage(Owner).DeleteAppMessage(TPointMsg(ListView1.items[contador].Data).idMsg);
+   {$IFDEF DELPHI5}
     ListView1.Selected.Delete;
-{$ELSE}
+   {$ELSE}
     ListView1.DeleteSelected;
-{$ENDIF}
+   {$ENDIF}
   end;
 
 end;
@@ -274,48 +249,33 @@ begin
 {$IFDEF DELPHI5}
   if ListView1.Selected = nil then
   begin
-    {$IFNDEF FPC}
-    // Modfied by fduenas
-    MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
-      .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
-    {$ELSE}
-    Application.MessageBox(
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
-      MB_ICONINFORMATION + MB_OK);
-    {$ENDIF}
-    exit;
+    //Modfied by fduenas
+    MessageBox(Handle, PChar(TUCApplicationMessage(Owner).UserControl.Settings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.Settings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION or mb_OK);
+    Exit;
   end;
 {$ELSE}
-  end;
   if ListView1.ItemIndex = -1 then
   begin
-    // Modfied by fduenas
-    MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
-      .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
-    exit;
+    //Modfied by fduenas
+    MessageBox(Handle, PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION or mb_OK);
+    Exit;
   end;
 {$ENDIF}
   try
-    EnvMsgForm := TEnvMsgForm.Create(Self.Owner);
+    EnvMsgForm                     := TEnvMsgForm.Create(Self.Owner);
     EnvMsgForm.DataSource1.DataSet := DSUsuarios;
     if EnvMsgForm.dbUsuario.Text <> '' then
       EnvMsgForm.dbUsuario.Enabled := False;
-    EnvMsgForm.EditAssunto.Text :=
-      Copy('Enc: ' + ListView1.Selected.SubItems[0], 1,
-      EnvMsgForm.EditAssunto.MaxLength);
+    EnvMsgForm.EditAssunto.Text := Copy('Enc: ' + ListView1.Selected.SubItems[0], 1, EnvMsgForm.EditAssunto.MaxLength);
     EnvMsgForm.MemoMsg.Text := TPointMsg(ListView1.Selected.Data).Msg;
     for contador := 0 to EnvMsgForm.MemoMsg.Lines.Count - 1 do
-      EnvMsgForm.MemoMsg.Lines[contador] := '>' + EnvMsgForm.MemoMsg.Lines
-        [contador];
-    EnvMsgForm.MemoMsg.Lines.Insert(0, ListView1.Selected.Caption + ' ' +
-      ListView1.Selected.SubItems[1]);
-    EnvMsgForm.MemoMsg.Text := Copy(EnvMsgForm.MemoMsg.Text, 1,
-      EnvMsgForm.MemoMsg.MaxLength);
+      EnvMsgForm.MemoMsg.Lines[contador] := '>' + EnvMsgForm.MemoMsg.Lines[contador];
+    EnvMsgForm.MemoMsg.Lines.Insert(0, ListView1.Selected.Caption + ' ' + ListView1.Selected.SubItems[1]);
+    EnvMsgForm.MemoMsg.Text := Copy(EnvMsgForm.MemoMsg.Text, 1, EnvMsgForm.MemoMsg.MaxLength);
     EnvMsgForm.Showmodal;
   finally
     FreeAndNil(EnvMsgForm);
@@ -327,43 +287,31 @@ begin
 {$IFDEF DELPHI5}
   if ListView1.Selected = nil then
   begin
-    {$IFNDEF FPC}
-    // Modfied by fduenas
-    MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
-      .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
-    {$ELSE}
-    Application.MessageBox(
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
-      MB_ICONINFORMATION + MB_OK);
-    {$ENDIF}
-    exit;
+    //Modfied by fduenas
+    MessageBox(Handle, PChar(TUCApplicationMessage(Owner).UserControl.Settings.AppMessages.MsgsForm_NoMessagesSelected), PChar(TUCApplicationMessage(Owner).UserControl.Settings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION + MB_OK);
+    Exit;
   end;
 {$ELSE}
   if ListView1.ItemIndex = -1 then
   begin
-    // Modfied by fduenas
-    MessageBox(Handle, PChar(TUCApplicationMessage(Owner)
-      .UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
-      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.
-      MsgsForm_NoMessagesSelected_WindowCaption), MB_ICONINFORMATION or MB_OK);
-    exit;
+    //Modfied by fduenas
+    MessageBox(Handle, PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected),
+      PChar(TUCApplicationMessage(Owner).UserControl.UserSettings.AppMessages.MsgsForm_NoMessagesSelected_WindowCaption),
+      MB_ICONINFORMATION or mb_OK);
+    Exit;
   end;
 {$ENDIF}
   try
-    EnvMsgForm := TEnvMsgForm.Create(Self.Owner);
+    EnvMsgForm                   := TEnvMsgForm.Create(Self.Owner);
     EnvMsgForm.rbUsuario.Checked := True;
-    EnvMsgForm.rbTodos.Enabled := False;
+    EnvMsgForm.rbTodos.Enabled   := False;
     DSMsgs.Open;
-    DSMsgs.Locate('idMsg', TPointMsg(ListView1.Selected.Data).IdMsg, []);
+    DSMsgs.Locate('idMsg', TPointMsg(ListView1.Selected.Data).idMsg, []);
     EnvMsgForm.DataSource1.DataSet := DSUsuarios;
-    EnvMsgForm.dbUsuario.KeyValue := DSMsgs.FieldByName('UsrFrom').AsInteger;
+    EnvMsgForm.dbUsuario.KeyValue  := DSMsgs.FieldByName('UsrFrom').AsInteger;
     if EnvMsgForm.dbUsuario.Text <> '' then
       EnvMsgForm.dbUsuario.Enabled := False;
-    EnvMsgForm.EditAssunto.Text := Copy('Re: ' + ListView1.Selected.SubItems[0],
-      1, EnvMsgForm.EditAssunto.MaxLength);
+    EnvMsgForm.EditAssunto.Text := Copy('Re: ' + ListView1.Selected.SubItems[0], 1, EnvMsgForm.EditAssunto.MaxLength);
     EnvMsgForm.Showmodal;
   finally
     DSMsgs.Close;
@@ -395,4 +343,4 @@ begin
   MontaTela;
 end;
 
-end.
+end.
